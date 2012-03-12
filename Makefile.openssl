@@ -599,7 +599,9 @@ OBJECTS = $(SOURCES:.c=.o)
 all: libopenssl.a
 
 clean: 
+	rm -f ${OBJECTS}
 	rm -fr build
+	rm -f libopenssl.a
 
 build:
 	mkdir -p build
