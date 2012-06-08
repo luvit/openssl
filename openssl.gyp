@@ -84,6 +84,8 @@
             'openssl/crypto/ecdsa/ecs_ossl.c',
             'openssl/crypto/ecdsa/ecs_sign.c',
             'openssl/crypto/ecdsa/ecs_vrf.c',
+            'openssl/crypto/whrlpool/wp_block.c',
+            'openssl/crypto/whrlpool/wp_dgst.c',
           ],
         }]
       ],
