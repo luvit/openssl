@@ -84,6 +84,8 @@
             'openssl/crypto/ecdsa/ecs_ossl.c',
             'openssl/crypto/ecdsa/ecs_sign.c',
             'openssl/crypto/ecdsa/ecs_vrf.c',
+            'openssl/crypto/whrlpool/wp_block.c',
+            'openssl/crypto/whrlpool/wp_dgst.c',
           ],
         }]
       ],
@@ -531,8 +533,6 @@
         'openssl/crypto/ui/ui_openssl.c',
         'openssl/crypto/ui/ui_util.c',
         'openssl/crypto/uid.c',
-        'openssl/crypto/whrlpool/wp_block.c',
-        'openssl/crypto/whrlpool/wp_dgst.c',
         'openssl/crypto/x509/by_dir.c',
         'openssl/crypto/x509/by_file.c',
         'openssl/crypto/x509/x509_att.c',
