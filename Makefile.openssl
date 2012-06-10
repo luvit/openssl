@@ -2,7 +2,6 @@ OS_NAME=$(shell uname -s)
 MH_NAME=$(shell uname -m)
 
 CFLAGS += -Iopenssl
-CFLAGS += -Iopenssl-configs/realized
 CFLAGS += -Iopenssl/include
 CFLAGS += -Iopenssl/crypto
 CFLAGS += -Iopenssl/crypto/asn1
