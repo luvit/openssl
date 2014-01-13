@@ -134,7 +134,6 @@
       ],
       'direct_dependent_settings': {
         'include_dirs': [
-          'openssl-configs/realized',
           'openssl/include',
           'openssl-configs',
           'openssl-configs/<(OS)-<(target_arch)',
