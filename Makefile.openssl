@@ -10,6 +10,8 @@ CFLAGS += -Iopenssl/crypto/evp
 CFLAGS += -Iopenssl-configs
 ifeq (${MH_NAME},x86_64)
 CFLAGS += -Iopenssl-configs/x64
+else ifeq (${MH_NAME},amd64)
+CFLAGS += -Iopenssl-configs/x64
 else
 CFLAGS += -Iopenssl-configs/ia32
 endif
