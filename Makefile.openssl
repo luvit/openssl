@@ -7,6 +7,7 @@ CFLAGS += -Iopenssl/include
 CFLAGS += -Iopenssl/crypto
 CFLAGS += -Iopenssl/crypto/asn1
 CFLAGS += -Iopenssl/crypto/evp
+CFLAGS += -Iopenssl/crypto/modes
 CFLAGS += -Iopenssl-configs
 ifeq (${MH_NAME},x86_64)
 CFLAGS += -Iopenssl-configs/x64
