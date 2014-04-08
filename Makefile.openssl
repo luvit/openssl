@@ -37,6 +37,8 @@ CFLAGS += -DOPENSSL_NO_MDC2
 CFLAGS += -DOPENSSL_NO_MD2
 CFLAGS += -DOPENSSL_NO_SEED
 CFLAGS += -DOPENSSL_NO_SOCK
+CFLAGS += -DOPENSSL_NO_SCTP
+CFLAGS += -DOPENSSL_NO_EC2M
 
 SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/aes/aes_cfb.c \
@@ -177,12 +179,16 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/bn/bn_sqrt.c \
         openssl/crypto/bn/bn_word.c \
         openssl/crypto/buffer/buf_err.c \
+        openssl/crypto/buffer/buf_str.c \
         openssl/crypto/buffer/buffer.c \
         openssl/crypto/cast/c_cfb64.c \
         openssl/crypto/cast/c_ecb.c \
         openssl/crypto/cast/c_enc.c \
         openssl/crypto/cast/c_ofb64.c \
         openssl/crypto/cast/c_skey.c \
+        openssl/crypto/cmac/cmac.c \
+        openssl/crypto/cmac/cm_ameth.c \
+        openssl/crypto/cmac/cm_pmeth.c \
         openssl/crypto/comp/c_rle.c \
         openssl/crypto/comp/c_zlib.c \
         openssl/crypto/comp/comp_err.c \
@@ -255,6 +261,7 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/dso/dso_win32.c \
         openssl/crypto/ebcdic.c \
         openssl/crypto/ec/ec2_mult.c \
+        openssl/crypto/ec/ec2_oct.c \
         openssl/crypto/ec/ec2_smpl.c \
         openssl/crypto/ec/ec_ameth.c \
         openssl/crypto/ec/ec_asn1.c \
@@ -265,11 +272,15 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/ec/ec_key.c \
         openssl/crypto/ec/ec_lib.c \
         openssl/crypto/ec/ec_mult.c \
+        openssl/crypto/ec/ec_oct.c \
         openssl/crypto/ec/ec_pmeth.c \
         openssl/crypto/ec/ec_print.c \
         openssl/crypto/ec/eck_prn.c \
         openssl/crypto/ec/ecp_mont.c \
         openssl/crypto/ec/ecp_nist.c \
+        openssl/crypto/ec/ecp_nistp224.c \
+        openssl/crypto/ec/ecp_nistp521.c \
+        openssl/crypto/ec/ecp_oct.c \
         openssl/crypto/ec/ecp_smpl.c \
         openssl/crypto/ecdh/ech_err.c \
         openssl/crypto/ecdh/ech_key.c \
@@ -317,6 +328,7 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/evp/c_alld.c \
         openssl/crypto/evp/digest.c \
         openssl/crypto/evp/e_aes.c \
+        openssl/crypto/evp/e_aes_cbc_hmac_sha1.c \
         openssl/crypto/evp/e_bf.c \
         openssl/crypto/evp/e_camellia.c \
         openssl/crypto/evp/e_cast.c \
@@ -327,6 +339,7 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/evp/e_old.c \
         openssl/crypto/evp/e_rc2.c \
         openssl/crypto/evp/e_rc4.c \
+        openssl/crypto/evp/e_rc4_hmac_md5.c \
         openssl/crypto/evp/e_xcbc_d.c \
         openssl/crypto/evp/encode.c \
         openssl/crypto/evp/evp_acnf.c \
@@ -378,7 +391,11 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/modes/ctr128.c \
         openssl/crypto/modes/cts128.c \
         openssl/crypto/modes/ofb128.c \
+        openssl/crypto/modes/ccm128.c \
+        openssl/crypto/modes/gcm128.c \
+        openssl/crypto/modes/xts128.c \
         openssl/crypto/o_dir.c \
+        openssl/crypto/o_init.c \
         openssl/crypto/o_str.c \
         openssl/crypto/o_time.c \
         openssl/crypto/objects/o_names.c \
@@ -444,11 +461,13 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/rand/randfile.c \
         openssl/crypto/rc4/rc4_enc.c \
         openssl/crypto/rc4/rc4_skey.c \
+        openssl/crypto/rc4/rc4_utl.c \
         openssl/crypto/ripemd/rmd_dgst.c \
         openssl/crypto/ripemd/rmd_one.c \
         openssl/crypto/rsa/rsa_ameth.c \
         openssl/crypto/rsa/rsa_asn1.c \
         openssl/crypto/rsa/rsa_chk.c \
+        openssl/crypto/rsa/rsa_crpt.c \
         openssl/crypto/rsa/rsa_depr.c \
         openssl/crypto/rsa/rsa_eay.c \
         openssl/crypto/rsa/rsa_err.c \
@@ -471,6 +490,8 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/crypto/sha/sha512.c \
         openssl/crypto/sha/sha_dgst.c \
         openssl/crypto/sha/sha_one.c \
+        openssl/crypto/srp/srp_lib.c \
+        openssl/crypto/srp/srp_vfy.c \
         openssl/crypto/stack/stack.c \
         openssl/crypto/ts/ts_asn1.c \
         openssl/crypto/ts/ts_conf.c \
@@ -560,6 +581,7 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/ssl/d1_meth.c \
         openssl/ssl/d1_pkt.c \
         openssl/ssl/d1_srvr.c \
+        openssl/ssl/d1_srtp.c \
         openssl/ssl/kssl.c \
         openssl/ssl/s23_clnt.c \
         openssl/ssl/s23_lib.c \
@@ -573,6 +595,7 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/ssl/s2_pkt.c \
         openssl/ssl/s2_srvr.c \
         openssl/ssl/s3_both.c \
+        openssl/ssl/s3_cbc.c \
         openssl/ssl/s3_clnt.c \
         openssl/ssl/s3_enc.c \
         openssl/ssl/s3_lib.c \
@@ -595,7 +618,8 @@ SOURCES=openssl/crypto/aes/aes_cbc.c \
         openssl/ssl/t1_lib.c \
         openssl/ssl/t1_meth.c \
         openssl/ssl/t1_reneg.c \
-        openssl/ssl/t1_srvr.c
+        openssl/ssl/t1_srvr.c \
+        openssl/ssl/tls_srp.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
