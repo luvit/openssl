@@ -122,6 +122,8 @@
         # We use BIOs to wrap our sockets ourselves,
         # but we never use the native BIO socket code directly.
         'OPENSSL_NO_SOCK',
+        'OPENSSL_NO_SCTP',
+        'OPENSSL_NO_EC2M'
       ],
       'copts': [
         '-w',
