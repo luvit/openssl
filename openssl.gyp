@@ -6,7 +6,10 @@
       'conditions': [
         ['OS=="win"',
           {
-            'defines': ['OPENSSL_SYSNAME_WIN32'],
+            'defines': [
+              'OPENSSL_SYSNAME_WIN32',
+              '_CRT_SECURE_NO_DEPRECATE'
+            ],
           }
         ],
         ['luvit_skinny=="true"',
