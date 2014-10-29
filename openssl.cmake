@@ -823,3 +823,11 @@ add_definitions(
   -DENGINESDIR="/dev/null"
   -DOPENSSLDIR="/etc/ssl"
 )
+
+if (WIN32 AND NOT CYGWIN)
+  add_definitions(
+    -DMK1MF_BUILD
+    -DWIN32_LEAN_AND_MEAN
+    -DOPENSSL_SYSNAME_WIN32
+  )
+endif ()
