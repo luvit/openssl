@@ -1,16 +1,191 @@
 set(OPENSSL_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
+file(COPY
+  ${OPENSSL_ROOT_DIR}/openssl/apps/apps.h
+  ${OPENSSL_ROOT_DIR}/openssl/apps/progs.h
+  ${OPENSSL_ROOT_DIR}/openssl/apps/s_apps.h
+  ${OPENSSL_ROOT_DIR}/openssl/apps/testdsa.h
+  ${OPENSSL_ROOT_DIR}/openssl/apps/testrsa.h
+  ${OPENSSL_ROOT_DIR}/openssl/apps/timeouts.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/aes/aes.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/aes/aes_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/arm_arch.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1/asn1.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1/asn1_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1/asn1_mac.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1/asn1t.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1/charmap.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_pi.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/blowfish.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bio/bio.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bio/bio_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn_prime.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/buffer/buffer.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/camellia.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/cast.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/cast_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/cast_s.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cmac/cmac.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/comp/comp.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/conf/conf.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/conf/conf_api.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/conf/conf_def.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cryptlib.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/crypto.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_old.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_ver.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/rpc_des.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/des/spr.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dsa/dsa.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dsa/dsa_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dso/dso.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ebcdic.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ec/ec.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ec/ec_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ecdh.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdsa/ecdsa.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdsa/ecs_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_int.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/engine.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/err/err.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/fips_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/hmac/hmac.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/idea.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/idea_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/jpake/jpake.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/krb5/krb5_asn.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/lhash/lhash.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md2/md2.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md32_common.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md4/md4.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md4/md4_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md5/md5.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/md5/md5_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/mdc2/mdc2.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/modes.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/modes_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/o_dir.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/o_str.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/o_time.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/objects/obj_dat.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/objects/obj_mac.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/objects/obj_xref.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/objects/objects.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ocsp/ocsp.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/opensslv.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ossl_typ.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/pem/pem.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/pem/pem2.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/pkcs12/pkcs12.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/pkcs7/pkcs7.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/pqueue/pqueue.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rand/rand.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rand/rand_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc2/rc2.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc2/rc2_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc5/rc5.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rc5/rc5_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ripemd/ripemd.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ripemd/rmd_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ripemd/rmdconst.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/srp/srp.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/srp/srp_grps.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/srp/srp_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/stack/safestack.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/stack/stack.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/store/store.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/store/str_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/symhacks.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ts/ts.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/txt_db/txt_db.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ui/ui.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ui/ui_compat.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ui/ui_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/vms_rms.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/whrlpool.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509/x509.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509/x509_vfy.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/ext_dat.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/pcy_int.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/x509v3.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/easy_tls/easy-tls.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/easy_tls/test.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/cluster_labs/cluster_labs.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/cluster_labs/hw_cluster_labs_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/ibmca/hw_ibmca_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/ibmca/ica_openssl_api.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/rsaref/rsaref_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/zencod/hw_zencod.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/engines/zencod/hw_zencod_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/demos/tunala/tunala.h
+  ${OPENSSL_ROOT_DIR}/openssl/e_os.h
+  ${OPENSSL_ROOT_DIR}/openssl/e_os2.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/e_gost_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gost2001_keyx.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gost89.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gost_keywrap.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gost_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gost_params.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/ccgost/gosthash.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_4758cca_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_aep_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_atalla_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_capi_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_chil_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_cswift_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_gmp_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_nuron_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_sureware_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/e_ubsec_err.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/aep.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/atalla.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/cswift.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/hw_4758_cca.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/hw_ubsec.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/hwcryptohook.h
+  ${OPENSSL_ROOT_DIR}/openssl/engines/vendor_defns/sureware.h
+  ${OPENSSL_ROOT_DIR}/openssl/ms/tlhelp32.h
+  ${OPENSSL_ROOT_DIR}/openssl/ms/uplink.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/dtls1.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/kssl.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/kssl_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/srtp.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl2.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl23.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl3.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl_locl.h
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/tls1.h
+  ${OPENSSL_ROOT_DIR}/openssl/test/testutil.h
+  DESTINATION ${CMAKE_BINARY_DIR}/openssl/include/openssl
+)
+
 include_directories(
-  ${OPENSSL_ROOT_DIR}
-  ${OPENSSL_ROOT_DIR}/openssl
-  ${OPENSSL_ROOT_DIR}/openssl-configs/realized
+  ${CMAKE_BINARY_DIR}/openssl/include
+  ${CMAKE_BINARY_DIR}/openssl/include/openssl
   ${OPENSSL_ROOT_DIR}/openssl-configs
-  ${OPENSSL_ROOT_DIR}/openssl/crypto
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/asn1
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/evp
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/modes
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/store
-  ${OPENSSL_ROOT_DIR}/openssl/include
+  ${OPENSSL_ROOT_DIR}/openssl-configs/x64
 )
 
 add_library(openssl STATIC
@@ -198,11 +373,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/buffer/buf_err.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/buffer/buf_str.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/buffer/buffer.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_cfb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_ctr.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_ecb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_ofb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_utl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_cfb64.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_ecb.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_ofb64.c
@@ -210,19 +380,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cmac/cm_ameth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cmac/cm_pmeth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cmac/cmac.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_asn1.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_att.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_cd.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_dd.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_enc.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_env.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_err.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_ess.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_io.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lib.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_pwri.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_sd.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_smime.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/comp/c_rle.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/comp/c_zlib.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/comp/comp_err.c
@@ -420,11 +577,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/hmac/hm_ameth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/hmac/hm_pmeth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/hmac/hmac.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/i_cbc.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/i_cfb64.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/i_ecb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/i_ofb64.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/idea/i_skey.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/krb5/krb5_asn.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/lhash/lh_stats.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/lhash/lhash.c
@@ -432,8 +584,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/md4/md4_one.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/md5/md5_dgst.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/md5/md5_one.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/mdc2/mdc2_one.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/mdc2/mdc2dgst.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/mem.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/mem_dbg.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/cbc128.c
@@ -536,11 +686,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_sign.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_ssl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_x931.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_cbc.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_cfb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_ecb.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_ofb.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha1_one.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha1dgst.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha256.c
@@ -635,15 +780,27 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_enc.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn_asm.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_enc.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/camellia.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_cbc.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/cmll_misc.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_enc.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/mem_clr.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_enc.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_skey.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_err.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_asn1.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_att.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_cd.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_dd.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_enc.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_env.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_err.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_ess.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_io.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lcl.h
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lib.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_pwri.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_sd.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_smime.c
   ${OPENSSL_ROOT_DIR}/openssl/engines/e_4758cca.c
   ${OPENSSL_ROOT_DIR}/openssl/engines/e_aep.c
   ${OPENSSL_ROOT_DIR}/openssl/engines/e_atalla.c
@@ -662,6 +819,7 @@ add_definitions(
   -D_REENTRANT
   -DOPENSSL_NO_HEARTBEATS
   -DOPENSSL_NO_ASM
+  -DOPENSSL_NO_SCTP
   -DENGINESDIR="/dev/null"
   -DOPENSSLDIR="/etc/ssl"
 )

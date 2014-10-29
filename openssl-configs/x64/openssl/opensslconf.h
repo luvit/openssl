@@ -11,9 +11,6 @@
 #ifndef OPENSSL_NO_CAPIENG
 # define OPENSSL_NO_CAPIENG
 #endif
-#ifndef OPENSSL_NO_CMS
-# define OPENSSL_NO_CMS
-#endif
 #ifndef OPENSSL_NO_FIPS
 # define OPENSSL_NO_FIPS
 #endif
