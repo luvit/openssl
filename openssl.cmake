@@ -585,6 +585,8 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/md5/md5_one.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/mem.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/mem_dbg.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/mdc2/mdc2_one.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/mdc2/mdc2dgst.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/cbc128.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/ccm128.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/cfb128.c
@@ -685,6 +687,11 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_sign.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_ssl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/rsa/rsa_x931.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_cbc.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_cfb.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_ecb.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/seed/seed_ofb.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha1_one.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha1dgst.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/sha/sha256.c
@@ -819,6 +826,8 @@ add_definitions(
   -DOPENSSL_NO_HEARTBEATS
   -DOPENSSL_NO_ASM
   -DOPENSSL_NO_SCTP
+  -DOPENSSL_NO_IDEA
+  -DOPENSSL_NO_CAMELLIA
   -DENGINESDIR="/dev/null"
   -DOPENSSLDIR="/etc/ssl"
 )
@@ -828,6 +837,7 @@ if (WIN32 AND NOT CYGWIN)
     -DMK1MF_BUILD
     -DWIN32_LEAN_AND_MEAN
     -DOPENSSL_SYSNAME_WIN32
+    -DOPENSSL_NO_EC_NISTP_64_GCC_128
   )
   include_directories(
     ${OPENSSL_ROOT_DIR}/openssl-configs/win

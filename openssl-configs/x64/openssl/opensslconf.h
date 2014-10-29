@@ -26,17 +26,11 @@
 #ifndef OPENSSL_NO_KRB5
 # define OPENSSL_NO_KRB5
 #endif
-#ifndef OPENSSL_NO_MDC2
-# define OPENSSL_NO_MDC2
-#endif
 #ifndef OPENSSL_NO_RC5
 # define OPENSSL_NO_RC5
 #endif
 #ifndef OPENSSL_NO_RFC3779
 # define OPENSSL_NO_RFC3779
-#endif
-#ifndef OPENSSL_NO_SEED
-# define OPENSSL_NO_SEED
 #endif
 #ifndef OPENSSL_NO_ASM
 # define OPENSSL_NO_ASM
