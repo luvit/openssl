@@ -185,7 +185,6 @@ include_directories(
   ${CMAKE_BINARY_DIR}/openssl/include
   ${CMAKE_BINARY_DIR}/openssl/include/openssl
   ${OPENSSL_ROOT_DIR}/openssl-configs
-  ${OPENSSL_ROOT_DIR}/openssl-configs/x64
 )
 
 add_library(openssl STATIC
@@ -829,5 +828,12 @@ if (WIN32 AND NOT CYGWIN)
     -DMK1MF_BUILD
     -DWIN32_LEAN_AND_MEAN
     -DOPENSSL_SYSNAME_WIN32
+  )
+  include_directories(
+    ${OPENSSL_ROOT_DIR}/openssl-configs/win
+  )
+else()
+  include_directories(
+    ${OPENSSL_ROOT_DIR}/openssl-configs/x64
   )
 endif ()
