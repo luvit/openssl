@@ -829,7 +829,6 @@ add_definitions(
   -DOPENSSL_NO_IDEA
   -DOPENSSL_NO_CAMELLIA
   -DENGINESDIR="/dev/null"
-  -DOPENSSLDIR="/etc/ssl"
 )
 
 if (WIN32 AND NOT CYGWIN)
@@ -843,6 +842,16 @@ if (WIN32 AND NOT CYGWIN)
     ${OPENSSL_ROOT_DIR}/openssl-configs/win
   )
 else()
+  if("${CMAKE_SYSTEM}" MATCHES "Linux")
+    add_definitions(
+      -DOPENSSLDIR="/etc/ssl"
+    )
+  elseif("${CMAKE_SYSTEM}" MATCHES "Darwin")
+    add_definitions(
+      -DOPENSSLDIR="/System/Library/OpenSSL"
+    )
+  endif()
+
   include_directories(
     ${OPENSSL_ROOT_DIR}/openssl-configs/x64
   )
