@@ -828,7 +828,6 @@ add_definitions(
   -DOPENSSL_NO_SCTP
   -DOPENSSL_NO_IDEA
   -DOPENSSL_NO_CAMELLIA
-  -DENGINESDIR="/dev/null"
 )
 
 if (WIN32 AND NOT CYGWIN)
