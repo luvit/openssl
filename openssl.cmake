@@ -185,6 +185,7 @@ include_directories(
   ${CMAKE_BINARY_DIR}/openssl/include
   ${CMAKE_BINARY_DIR}/openssl/include/openssl
   ${OPENSSL_ROOT_DIR}/openssl-configs
+  ${OPENSSL_ROOT_DIR}/openssl/crypto
 )
 
 add_library(openssl STATIC
