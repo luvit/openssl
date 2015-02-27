@@ -848,6 +848,10 @@ else()
     add_definitions(
       -DOPENSSLDIR="/etc/ssl"
     )
+  elseif("${CMAKE_SYSTEM}" MATCHES "SunOS")
+    add_definitions(
+      -DOPENSSL_NO_EC_NISTP_64_GCC_128
+    )
   elseif("${CMAKE_SYSTEM}" MATCHES "Darwin")
     add_definitions(
       -DOPENSSLDIR="/System/Library/OpenSSL"
