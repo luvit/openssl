@@ -844,6 +844,11 @@ if (WIN32 AND NOT CYGWIN)
     ${OPENSSL_ROOT_DIR}/openssl-configs/win
   )
 else()
+  if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    add_definitions(
+      -DOPENSSL_NO_EC_NISTP_64_GCC_128
+    )
+  endif()
   if("${CMAKE_SYSTEM}" MATCHES "Linux")
     add_definitions(
       -DOPENSSLDIR="/etc/ssl"
