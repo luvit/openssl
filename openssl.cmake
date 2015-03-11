@@ -193,7 +193,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/ssl/bio_ssl.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_both.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_clnt.c
-  ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_enc.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_meth.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/d1_pkt.c
@@ -232,6 +231,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/ssl/ssl_txt.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_clnt.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_enc.c
+  ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_ext.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_meth.c
   ${OPENSSL_ROOT_DIR}/openssl/ssl/t1_reneg.c
@@ -426,9 +426,11 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_err.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_gen.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_key.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_kdf.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_pmeth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_prn.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/dh/dh_rfc5114.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dsa/dsa_ameth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dsa/dsa_asn1.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/dsa/dsa_depr.c
@@ -477,6 +479,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ec/ecp_smpl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_err.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_key.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_kdf.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdh/ech_ossl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/ecdsa/ecs_asn1.c
@@ -524,6 +527,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/digest.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_aes.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_aes_cbc_hmac_sha1.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_aes_cbc_hmac_sha256.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_bf.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_camellia.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/e_cast.c
@@ -543,7 +547,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_cnf.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_enc.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_err.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_fips.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_key.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/evp/evp_pbe.c
@@ -597,6 +600,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/gcm128.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/ofb128.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/xts128.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/modes/wrap128.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/o_dir.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/o_fips.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/o_init.c
@@ -778,6 +782,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_pmaps.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_prn.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_purp.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_scts.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_skey.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_sxnet.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/x509v3/v3_utl.c
@@ -804,6 +809,7 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_err.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_ess.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_io.c
+  ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_kari.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lcl.h
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_lib.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/cms/cms_pwri.c
