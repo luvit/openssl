@@ -501,7 +501,6 @@ add_library(openssl STATIC
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_openssl.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_pkey.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_rdrand.c
-  ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_rsax.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/eng_table.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/tb_asnmth.c
   ${OPENSSL_ROOT_DIR}/openssl/crypto/engine/tb_cipher.c
