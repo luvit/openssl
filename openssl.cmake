@@ -849,10 +849,17 @@ if (WIN32 AND NOT CYGWIN)
     ${OPENSSL_ROOT_DIR}/openssl-configs/win
   )
 else()
+  set(ARCH "x64")
+  execute_process(COMMAND uname -m OUTPUT_VARIABLE MACHINE OUTPUT_STRIP_TRAILING_WHITESPACE)
   if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
     add_definitions(
       -DOPENSSL_NO_EC_NISTP_64_GCC_128
     )
+    if(${MACHINE} MATCHES "^arm")
+      set(ARCH "arm")
+    else()
+      set(ARCH "ia32")
+    endif()
   endif()
   if("${CMAKE_SYSTEM}" MATCHES "Linux")
     add_definitions(
@@ -869,6 +876,6 @@ else()
   endif()
 
   include_directories(
-    ${OPENSSL_ROOT_DIR}/openssl-configs/x64
+    ${OPENSSL_ROOT_DIR}/openssl-configs/${ARCH}
   )
 endif ()
