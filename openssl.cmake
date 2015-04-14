@@ -853,6 +853,13 @@ else()
     add_definitions(
       -DOPENSSL_NO_EC_NISTP_64_GCC_128
     )
+    include_directories(
+      ${OPENSSL_ROOT_DIR}/openssl-configs/ia32
+    )
+  else()
+    include_directories(
+      ${OPENSSL_ROOT_DIR}/openssl-configs/x64
+    )
   endif()
   if("${CMAKE_SYSTEM}" MATCHES "Linux")
     add_definitions(
@@ -868,7 +875,4 @@ else()
     )
   endif()
 
-  include_directories(
-    ${OPENSSL_ROOT_DIR}/openssl-configs/x64
-  )
 endif ()
