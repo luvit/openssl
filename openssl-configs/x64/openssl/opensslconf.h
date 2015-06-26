@@ -32,9 +32,6 @@
 #ifndef OPENSSL_NO_RFC3779
 # define OPENSSL_NO_RFC3779
 #endif
-#ifndef OPENSSL_NO_ASM
-# define OPENSSL_NO_ASM
-#endif
 
 #endif /* OPENSSL_DOING_MAKEDEPEND */
 
