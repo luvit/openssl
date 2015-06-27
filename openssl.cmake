@@ -872,7 +872,7 @@ else()
 endif ()
 
 
-if (NOT ${OPENSSL_ENABLE_ASM})
+if (NOT WithOpenSSLASM)
   add_definitions(-DOPENSSL_NO_ASM)
   message("No Assembler")
   set(sources ${sources}

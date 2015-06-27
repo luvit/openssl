@@ -21,7 +21,7 @@ noasm:
 	cmake --build build-noasm -- ${EXTRA_OPTIONS}
 
 asm:
-	cmake -H. -Bbuild-asm -DOPENSSL_ENABLE_ASM=ON
+	cmake -H. -Bbuild-asm -DWithOpenSSLASM=ON
 	cmake --build build-asm -- ${EXTRA_OPTIONS}
 
 clean:
