@@ -943,7 +943,6 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/ripemd/rmd-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha1-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha256-586.s
-      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha256-mb-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha512-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/whrlpool/wp-mmx.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/modes/ghash-x86.s
