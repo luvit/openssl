@@ -830,6 +830,10 @@ add_definitions(
 )
 
 if (WIN32 AND NOT CYGWIN)
+  set(ARCH "x64")
+  if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(ARCH "ia32")
+  endif()
   add_definitions(
     -DMK1MF_BUILD
     -DWIN32_LEAN_AND_MEAN
@@ -918,9 +922,9 @@ else()
   endif()
 
   # unix, not mac, 32bit
-  if (NOT WIN32
-      AND NOT ${CMAKE_SYSTEM} MATCHES "Darwin"
-      AND ${ARCH} MATCHES "ia32")
+  if ((NOT WIN32)
+      AND (NOT ${CMAKE_SYSTEM} MATCHES "Darwin")
+      AND (${ARCH} MATCHES "ia32"))
     message("  unix 32bit")
     set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/aes/aes-586.s
@@ -948,9 +952,9 @@ else()
   endif()
 
   # unix, not mac, 64bit
-  if (NOT WIN32
-      AND NOT ${CMAKE_SYSTEM} MATCHES "Darwin"
-      AND ${ARCH} MATCHES "x64")
+  if ((NOT WIN32)
+      AND (NOT ${CMAKE_SYSTEM} MATCHES "Darwin")
+      AND (${ARCH} MATCHES "x64"))
     message("  unix 64bit")
     add_definitions(
       -DOPENSSL_BN_ASM_MONT5
@@ -1024,8 +1028,8 @@ else()
   endif()
 
   # mac 32bit
-  if (${CMAKE_SYSTEM} MATCHES "Darwin"
-      AND ${ARCH} MATCHES "ia32")
+  if ((${CMAKE_SYSTEM} MATCHES "Darwin")
+      AND (${ARCH} MATCHES "ia32"))
     message("  mac 32bit")
     set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x86-macosx-gas/aes/aes-586.s
@@ -1054,8 +1058,8 @@ else()
   endif()
 
   # mac 64bit
-  if (${CMAKE_SYSTEM} MATCHES "Darwin"
-      AND ${ARCH} MATCHES "x64")
+  if ((${CMAKE_SYSTEM} MATCHES "Darwin")
+      AND (${ARCH} MATCHES "x64"))
     message("  mac 64bit")
     add_definitions(
       -DOPENSSL_BN_ASM_MONT5
@@ -1099,8 +1103,10 @@ else()
   endif()
 
   # windows 32bit
-  if (WIN32 AND ${ARCH} MATCHES "ia32")
-    set(sources ${sources}
+  if (WIN32)
+
+    if(${ARCH} MATCHES "ia32")
+      set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aes-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aesni-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
@@ -1119,13 +1125,16 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha512-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/whrlpool/wp-mmx.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/modes/ghash-x86.asm
-
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/x86cpuid.asm
       ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c)
-  endif()
+	  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
+      set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
+    endif()
+  
 
   # windows 64bit
-  if (WIN32 AND ${ARCH} MATCHES "x64")
+  if (${ARCH} MATCHES "x64")
     add_definitions(
       -DOPENSSL_BN_ASM_MONT5
       -DOPENSSL_BN_ASM_GF2m
@@ -1161,6 +1170,7 @@ else()
       ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c)
+  endif()
   endif()
 endif()
 
