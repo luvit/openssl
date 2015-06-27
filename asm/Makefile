@@ -227,7 +227,7 @@ x64-win32-masm/aes/aesni-mb-x86_64.asm: ../openssl/crypto/aes/asm/aesni-mb-x86_6
 x64-win32-masm/aes/vpaes-x86_64.asm: ../openssl/crypto/aes/asm/vpaes-x86_64.pl
 x64-win32-masm/aes/bsaes-x86_64.asm: ../openssl/crypto/aes/asm/bsaes-x86_64.pl
 x64-win32-masm/aes/aesni-sha1-x86_64.asm: ../openssl/crypto/aes/asm/aesni-sha1-x86_64.pl
-x64-win32-masm/aes/aesni-sha256-x86_64.asm: ../openssl/crypto/aes/asm/aesni-sha1-x86_64.pl
+x64-win32-masm/aes/aesni-sha256-x86_64.asm: ../openssl/crypto/aes/asm/aesni-sha256-x86_64.pl
 x64-win32-masm/bn/rsaz-avx2.asm: ../openssl/crypto/bn/asm/rsaz-avx2.pl
 x64-win32-masm/bn/x86_64-mont.asm: ../openssl/crypto/bn/asm/x86_64-mont.pl
 x64-win32-masm/bn/x86_64-mont5.asm: ../openssl/crypto/bn/asm/x86_64-mont5.pl
