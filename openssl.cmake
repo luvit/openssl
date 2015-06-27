@@ -1001,20 +1001,19 @@ else()
   if (${ARCH} MATCHES "arm")
     message("  arm")
     set(sources ${sources}
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/aes/aes-armv4.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/bn/armv4-mont.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/bn/armv4-gf2m.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha1-armv4-large.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha512-armv4.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha256-armv4.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha256-mb-armv4.s
-      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/modes/ghash-armv4.s
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/aes/aes-armv4.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/bn/armv4-mont.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/bn/armv4-gf2m.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha1-armv4-large.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha512-armv4.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha256-armv4.S
+      #${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/sha/sha256-mb-armv4.S
+      ${OPENSSL_ROOT_DIR}/asm/arm-elf-gas/modes/ghash-armv4.S
       # No asm available
       ${OPENSSL_ROOT_DIR}/openssl/crypto/aes/aes_cbc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn_asm.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_enc.c
-      ${OPENSSL_ROOT_DIR}/openssl/crypto/camellia/camellia.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_enc.c
@@ -1022,7 +1021,7 @@ else()
       ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c
       # PCAP stuff
       ${OPENSSL_ROOT_DIR}/openssl/crypto/armcap.c
-      ${OPENSSL_ROOT_DIR}/openssl/crypto/armv4cpuid.s
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/armv4cpuid.S
     )
   endif()
 
