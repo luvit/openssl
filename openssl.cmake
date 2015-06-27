@@ -1149,6 +1149,7 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/bsaes-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-sha1-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-sha256-x86_64.asm
+      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/rsaz-avx2.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-mont.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-mont5.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-gf2m.asm
