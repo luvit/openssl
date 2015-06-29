@@ -831,16 +831,23 @@ add_definitions(
 
 if (WIN32 AND NOT CYGWIN)
   set(ARCH "x64")
-  if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set(ARCH "ia32")
-    include_directories(
-      ${OPENSSL_ROOT_DIR}/openssl-configs/win/ia32
-    )
+  if(WithOpenSSLASM)
+    if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+      set(ARCH "ia32")
+      include_directories(
+        ${OPENSSL_ROOT_DIR}/openssl-configs/win/ia32
+      )
+    else()
+      include_directories(
+        ${OPENSSL_ROOT_DIR}/openssl-configs/win/x64
+      )
+    endif()
   else()
-    include_directories(
-      ${OPENSSL_ROOT_DIR}/openssl-configs/win/x64
-    )
+   include_directories(
+     ${OPENSSL_ROOT_DIR}/openssl-configs/win/no-asm
+   )
   endif()
+  
   add_definitions(
     -DMK1MF_BUILD
     -DWIN32_LEAN_AND_MEAN
