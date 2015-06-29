@@ -1110,7 +1110,9 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-686.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/bn-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/co-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-gf2m.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/cast/cast-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/crypt586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/des-586.asm
