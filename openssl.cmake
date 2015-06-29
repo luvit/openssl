@@ -833,15 +833,19 @@ if (WIN32 AND NOT CYGWIN)
   set(ARCH "x64")
   if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(ARCH "ia32")
+    include_directories(
+      ${OPENSSL_ROOT_DIR}/openssl-configs/win/ia32
+    )
+  else()
+    include_directories(
+      ${OPENSSL_ROOT_DIR}/openssl-configs/win/x64
+    )
   endif()
   add_definitions(
     -DMK1MF_BUILD
     -DWIN32_LEAN_AND_MEAN
     -DOPENSSL_SYSNAME_WIN32
     -DOPENSSL_NO_EC_NISTP_64_GCC_128
-  )
-  include_directories(
-    ${OPENSSL_ROOT_DIR}/openssl-configs/win
   )
 else()
   set(ARCH "x64")
@@ -1104,30 +1108,45 @@ else()
   if (WIN32)
 
     if(${ARCH} MATCHES "ia32")
+      add_definitions(
+        -DOPENSSL_BN_ASM_PART_WORDS
+        -DOPENSSL_IA32_SSE2
+        -DOPENSSL_BN_ASM_MONT
+        -DOPENSSL_BN_ASM_GF2m
+        -DSHA1_ASM
+        -DSHA256_ASM
+        -DSHA512_ASM
+        -DMD5_ASM
+        -DRMD160_ASM
+        -DAES_ASM
+        -DVPAES_ASM
+        -DWHIRLPOOL_ASM
+        -DGHASH_ASM
+      )
       set(sources ${sources}
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aes-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aesni-x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-686.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/cast/cast-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/crypt586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/des-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/md5/md5-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc4/rc4-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc5/rc5-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/ripemd/rmd-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha1-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha256-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha512-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/whrlpool/wp-mmx.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/modes/ghash-x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/x86cpuid.asm
-      ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c)
-	  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
-      set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aes-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aesni-x86.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-686.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/cast/cast-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/crypt586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/des-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/md5/md5-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc4/rc4-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc5/rc5-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/ripemd/rmd-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha1-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha256-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha512-586.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/whrlpool/wp-mmx.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/modes/ghash-x86.asm
+        ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/x86cpuid.asm
+        ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c)
+  	    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
+        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
     endif()
   
 
@@ -1138,6 +1157,14 @@ else()
       -DOPENSSL_BN_ASM_GF2m
       -DOPENSSL_IA32_SSE2
       -DBSAES_ASM
+      -DOPENSSL_BN_ASM_MONT
+      -DSHA1_ASM
+      -DSHA256_ASM
+      -DSHA512_ASM
+      -DMD5_ASM
+      -DAES_ASM -DVPAES_ASM
+      -DWHIRLPOOL_ASM
+      -DGHASH_ASM
     )
     set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aes-x86_64.asm
