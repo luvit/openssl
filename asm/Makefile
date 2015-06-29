@@ -110,6 +110,7 @@ OUTPUTS	= \
 	x86-win32-masm/bn/x86.asm \
 	x86-win32-masm/bn/bn-586.asm \
 	x86-win32-masm/bn/co-586.asm \
+	x86-win32-masm/bn/x86-gf2m.asm \
 	x86-win32-masm/camellia/cmll-x86.asm \
 	x86-win32-masm/cast/cast-586.asm \
 	x86-win32-masm/des/crypt586.asm \
@@ -297,6 +298,7 @@ x86-win32-masm/aes/vpaes-x86.asm: ../openssl/crypto/aes/asm/vpaes-x86.pl
 x86-win32-masm/bf/bf-686.asm: ../openssl/crypto/bf/asm/bf-686.pl
 x86-win32-masm/bn/bn-586.asm: ../openssl/crypto/bn/asm/bn-586.pl
 x86-win32-masm/bn/co-586.asm: ../openssl/crypto/bn/asm/co-586.pl
+x86-win32-masm/bn/x86-gf2m.asm: ../openssl/crypto/bn/asm/x86-gf2m.pl
 x86-win32-masm/bn/x86.asm: ../openssl/crypto/bn/asm/x86.pl
 x86-win32-masm/bn/x86-mont.asm: ../openssl/crypto/bn/asm/x86-mont.pl
 x86-win32-masm/bn/rsaz-avx2.asm: ../openssl/crypto/bn/asm/rsaz-avx2.pl
