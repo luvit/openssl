@@ -700,6 +700,7 @@
             'libraries': [
               '-lgdi32.lib',
               '-luser32.lib',
+              '-ladvapi32.lib',
             ]
           },
           'defines': [
