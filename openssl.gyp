@@ -713,6 +713,13 @@
             'HAVE_DLFCN_H'
           ],
         }],
+        ['OS=="linux"', {
+          'link_settings': {
+            'libraries': [
+              '-ldl',
+            ]
+          },
+        }],
         ['target_arch=="arm"', {
           'sources': ['openssl/crypto/armcap.c'],
         }],
