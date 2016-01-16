@@ -690,6 +690,18 @@
         'openssl/engines/e_ubsec.c',
         'openssl/engines/e_ubsec_err.c',
       ],
+      'conditions': [
+        ['OS=="win"', {
+          'sources!': [
+            'openssl/crypto/fips_ers.c',
+            'openssl/crypto/evp/openbsd_hw.c',
+            'openssl/crypto/ec/ecp_nistp224.c',
+            'openssl/crypto/ec/ecp_nistp256.c',
+            'openssl/crypto/ec/ecp_nistp521.c',
+            'openssl/crypto/ec/ecp_nistputil.c',
+          ],
+        }]
+      ],
       'sources/': [
         ['exclude', 'md2/.*$'],
         ['exclude', 'store/.*$']
