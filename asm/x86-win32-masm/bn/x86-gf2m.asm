@@ -17,6 +17,7 @@ IF @Version LT 800
 ELSE
 .text$	SEGMENT ALIGN(64) 'CODE'
 ENDIF
+;EXTERN	_OPENSSL_ia32cap_P:NEAR
 ALIGN	16
 __mul_1x1_mmx	PROC PRIVATE
 	sub	esp,36
@@ -258,6 +259,18 @@ $L_bn_GF2m_mul_2x2_begin::
 	mov	edx,DWORD PTR 4[edx]
 	test	eax,8388608
 	jz	$L000ialu
+	test	eax,16777216
+	jz	$L001mmx
+	test	edx,2
+	jz	$L001mmx
+	movups	xmm0,XMMWORD PTR 8[esp]
+	shufps	xmm0,xmm0,177
+DB	102,15,58,68,192,1
+	mov	eax,DWORD PTR 4[esp]
+	movups	XMMWORD PTR [eax],xmm0
+	ret
+ALIGN	16
+$L001mmx:
 	push	ebp
 	push	ebx
 	push	esi

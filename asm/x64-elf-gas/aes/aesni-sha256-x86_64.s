@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	aesni_cbc_sha256_enc
 .type	aesni_cbc_sha256_enc,@function
 .align	16

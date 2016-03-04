@@ -23,6 +23,7 @@ $L$SEH_begin_bn_mul_mont::
 	jnz	$L$mul_enter
 	cmp	r9d,8
 	jb	$L$mul_enter
+	mov	r11d,DWORD PTR[((OPENSSL_ia32cap_P+8))]
 	cmp	rdx,rsi
 	jne	$L$mul4x_enter
 	test	r9d,7
@@ -243,6 +244,9 @@ $L$SEH_begin_bn_mul4x_mont::
 
 
 $L$mul4x_enter::
+	and	r11d,080100h
+	cmp	r11d,080100h
+	je	$L$mulx4x_enter
 	push	rbx
 	push	rbp
 	push	r12
@@ -640,6 +644,7 @@ $L$mul4x_epilogue::
 	DB	0F3h,0C3h		;repret
 $L$SEH_end_bn_mul4x_mont::
 bn_mul4x_mont	ENDP
+EXTERN	bn_sqrx8x_internal:NEAR
 EXTERN	bn_sqr8x_internal:NEAR
 
 
@@ -676,20 +681,20 @@ $L$sqr8x_enter::
 
 
 
-	lea	r11,QWORD PTR[((-64))+r9*4+rsp]
+	lea	r11,QWORD PTR[((-64))+r9*2+rsp]
 	mov	r8,QWORD PTR[r8]
 	sub	r11,rsi
 	and	r11,4095
 	cmp	r10,r11
 	jb	$L$sqr8x_sp_alt
 	sub	rsp,r11
-	lea	rsp,QWORD PTR[((-64))+r9*4+rsp]
+	lea	rsp,QWORD PTR[((-64))+r9*2+rsp]
 	jmp	$L$sqr8x_sp_done
 
 ALIGN	32
 $L$sqr8x_sp_alt::
-	lea	r10,QWORD PTR[((4096-64))+r9*4]
-	lea	rsp,QWORD PTR[((-64))+r9*4+rsp]
+	lea	r10,QWORD PTR[((4096-64))+r9*2]
+	lea	rsp,QWORD PTR[((-64))+r9*2+rsp]
 	sub	r11,r10
 	mov	r10,0
 	cmovc	r11,r10
@@ -699,58 +704,99 @@ $L$sqr8x_sp_done::
 	mov	r10,r9
 	neg	r9
 
-	lea	r11,QWORD PTR[64+r9*2+rsp]
 	mov	QWORD PTR[32+rsp],r8
 	mov	QWORD PTR[40+rsp],rax
 $L$sqr8x_body::
 
-	mov	rbp,r9
-DB	102,73,15,110,211
-	shr	rbp,3+2
-	mov	eax,DWORD PTR[((OPENSSL_ia32cap_P+8))]
-	jmp	$L$sqr8x_copy_n
-
-ALIGN	32
-$L$sqr8x_copy_n::
-	movq	xmm0,QWORD PTR[rcx]
-	movq	xmm1,QWORD PTR[8+rcx]
-	movq	xmm3,QWORD PTR[16+rcx]
-	movq	xmm4,QWORD PTR[24+rcx]
-	lea	rcx,QWORD PTR[32+rcx]
-	movdqa	XMMWORD PTR[r11],xmm0
-	movdqa	XMMWORD PTR[16+r11],xmm1
-	movdqa	XMMWORD PTR[32+r11],xmm3
-	movdqa	XMMWORD PTR[48+r11],xmm4
-	lea	r11,QWORD PTR[64+r11]
-	dec	rbp
-	jnz	$L$sqr8x_copy_n
-
+DB	102,72,15,110,209
 	pxor	xmm0,xmm0
 DB	102,72,15,110,207
 DB	102,73,15,110,218
-	call	bn_sqr8x_internal
+	mov	eax,DWORD PTR[((OPENSSL_ia32cap_P+8))]
+	and	eax,080100h
+	cmp	eax,080100h
+	jne	$L$sqr8x_nox
 
-	pxor	xmm0,xmm0
-	lea	rax,QWORD PTR[48+rsp]
-	lea	rdx,QWORD PTR[64+r9*2+rsp]
-	shr	r9,3+2
-	mov	rsi,QWORD PTR[40+rsp]
-	jmp	$L$sqr8x_zero
+	call	bn_sqrx8x_internal
+
+
+
+
+	lea	rbx,QWORD PTR[rcx*1+r8]
+	mov	r9,rcx
+	mov	rdx,rcx
+DB	102,72,15,126,207
+	sar	rcx,3+2
+	jmp	$L$sqr8x_sub
 
 ALIGN	32
-$L$sqr8x_zero::
-	movdqa	XMMWORD PTR[rax],xmm0
-	movdqa	XMMWORD PTR[16+rax],xmm0
-	movdqa	XMMWORD PTR[32+rax],xmm0
-	movdqa	XMMWORD PTR[48+rax],xmm0
-	lea	rax,QWORD PTR[64+rax]
-	movdqa	XMMWORD PTR[rdx],xmm0
-	movdqa	XMMWORD PTR[16+rdx],xmm0
-	movdqa	XMMWORD PTR[32+rdx],xmm0
-	movdqa	XMMWORD PTR[48+rdx],xmm0
-	lea	rdx,QWORD PTR[64+rdx]
-	dec	r9
-	jnz	$L$sqr8x_zero
+$L$sqr8x_nox::
+	call	bn_sqr8x_internal
+
+
+
+
+	lea	rbx,QWORD PTR[r9*1+rdi]
+	mov	rcx,r9
+	mov	rdx,r9
+DB	102,72,15,126,207
+	sar	rcx,3+2
+	jmp	$L$sqr8x_sub
+
+ALIGN	32
+$L$sqr8x_sub::
+	mov	r12,QWORD PTR[rbx]
+	mov	r13,QWORD PTR[8+rbx]
+	mov	r14,QWORD PTR[16+rbx]
+	mov	r15,QWORD PTR[24+rbx]
+	lea	rbx,QWORD PTR[32+rbx]
+	sbb	r12,QWORD PTR[rbp]
+	sbb	r13,QWORD PTR[8+rbp]
+	sbb	r14,QWORD PTR[16+rbp]
+	sbb	r15,QWORD PTR[24+rbp]
+	lea	rbp,QWORD PTR[32+rbp]
+	mov	QWORD PTR[rdi],r12
+	mov	QWORD PTR[8+rdi],r13
+	mov	QWORD PTR[16+rdi],r14
+	mov	QWORD PTR[24+rdi],r15
+	lea	rdi,QWORD PTR[32+rdi]
+	inc	rcx
+	jnz	$L$sqr8x_sub
+
+	sbb	rax,0
+	lea	rbx,QWORD PTR[r9*1+rbx]
+	lea	rdi,QWORD PTR[r9*1+rdi]
+
+DB	102,72,15,110,200
+	pxor	xmm0,xmm0
+	pshufd	xmm1,xmm1,0
+	mov	rsi,QWORD PTR[40+rsp]
+	jmp	$L$sqr8x_cond_copy
+
+ALIGN	32
+$L$sqr8x_cond_copy::
+	movdqa	xmm2,XMMWORD PTR[rbx]
+	movdqa	xmm3,XMMWORD PTR[16+rbx]
+	lea	rbx,QWORD PTR[32+rbx]
+	movdqu	xmm4,XMMWORD PTR[rdi]
+	movdqu	xmm5,XMMWORD PTR[16+rdi]
+	lea	rdi,QWORD PTR[32+rdi]
+	movdqa	XMMWORD PTR[(-32)+rbx],xmm0
+	movdqa	XMMWORD PTR[(-16)+rbx],xmm0
+	movdqa	XMMWORD PTR[(-32)+rdx*1+rbx],xmm0
+	movdqa	XMMWORD PTR[(-16)+rdx*1+rbx],xmm0
+	pcmpeqd	xmm0,xmm1
+	pand	xmm2,xmm1
+	pand	xmm3,xmm1
+	pand	xmm4,xmm0
+	pand	xmm5,xmm0
+	pxor	xmm0,xmm0
+	por	xmm4,xmm2
+	por	xmm5,xmm3
+	movdqu	XMMWORD PTR[(-32)+rdi],xmm4
+	movdqu	XMMWORD PTR[(-16)+rdi],xmm5
+	add	r9,32
+	jnz	$L$sqr8x_cond_copy
 
 	mov	rax,1
 	mov	r15,QWORD PTR[((-48))+rsi]
@@ -766,6 +812,343 @@ $L$sqr8x_epilogue::
 	DB	0F3h,0C3h		;repret
 $L$SEH_end_bn_sqr8x_mont::
 bn_sqr8x_mont	ENDP
+
+ALIGN	32
+bn_mulx4x_mont	PROC PRIVATE
+	mov	QWORD PTR[8+rsp],rdi	;WIN64 prologue
+	mov	QWORD PTR[16+rsp],rsi
+	mov	rax,rsp
+$L$SEH_begin_bn_mulx4x_mont::
+	mov	rdi,rcx
+	mov	rsi,rdx
+	mov	rdx,r8
+	mov	rcx,r9
+	mov	r8,QWORD PTR[40+rsp]
+	mov	r9,QWORD PTR[48+rsp]
+
+
+$L$mulx4x_enter::
+	mov	rax,rsp
+	push	rbx
+	push	rbp
+	push	r12
+	push	r13
+	push	r14
+	push	r15
+
+	shl	r9d,3
+DB	067h
+	xor	r10,r10
+	sub	r10,r9
+	mov	r8,QWORD PTR[r8]
+	lea	rsp,QWORD PTR[((-72))+r10*1+rsp]
+	lea	r10,QWORD PTR[r9*1+rdx]
+	and	rsp,-128
+
+
+
+
+
+
+
+
+
+
+
+
+	mov	QWORD PTR[rsp],r9
+	shr	r9,5
+	mov	QWORD PTR[16+rsp],r10
+	sub	r9,1
+	mov	QWORD PTR[24+rsp],r8
+	mov	QWORD PTR[32+rsp],rdi
+	mov	QWORD PTR[40+rsp],rax
+	mov	QWORD PTR[48+rsp],r9
+	jmp	$L$mulx4x_body
+
+ALIGN	32
+$L$mulx4x_body::
+	lea	rdi,QWORD PTR[8+rdx]
+	mov	rdx,QWORD PTR[rdx]
+	lea	rbx,QWORD PTR[((64+32))+rsp]
+	mov	r9,rdx
+
+	mulx	rax,r8,QWORD PTR[rsi]
+	mulx	r14,r11,QWORD PTR[8+rsi]
+	add	r11,rax
+	mov	QWORD PTR[8+rsp],rdi
+	mulx	r13,r12,QWORD PTR[16+rsi]
+	adc	r12,r14
+	adc	r13,0
+
+	mov	rdi,r8
+	imul	r8,QWORD PTR[24+rsp]
+	xor	rbp,rbp
+
+	mulx	r14,rax,QWORD PTR[24+rsi]
+	mov	rdx,r8
+	lea	rsi,QWORD PTR[32+rsi]
+	adcx	r13,rax
+	adcx	r14,rbp
+
+	mulx	r10,rax,QWORD PTR[rcx]
+	adcx	rdi,rax
+	adox	r10,r11
+	mulx	r11,rax,QWORD PTR[8+rcx]
+	adcx	r10,rax
+	adox	r11,r12
+DB	0c4h,062h,0fbh,0f6h,0a1h,010h,000h,000h,000h
+	mov	rdi,QWORD PTR[48+rsp]
+	mov	QWORD PTR[((-32))+rbx],r10
+	adcx	r11,rax
+	adox	r12,r13
+	mulx	r15,rax,QWORD PTR[24+rcx]
+	mov	rdx,r9
+	mov	QWORD PTR[((-24))+rbx],r11
+	adcx	r12,rax
+	adox	r15,rbp
+	lea	rcx,QWORD PTR[32+rcx]
+	mov	QWORD PTR[((-16))+rbx],r12
+
+	jmp	$L$mulx4x_1st
+
+ALIGN	32
+$L$mulx4x_1st::
+	adcx	r15,rbp
+	mulx	rax,r10,QWORD PTR[rsi]
+	adcx	r10,r14
+	mulx	r14,r11,QWORD PTR[8+rsi]
+	adcx	r11,rax
+	mulx	rax,r12,QWORD PTR[16+rsi]
+	adcx	r12,r14
+	mulx	r14,r13,QWORD PTR[24+rsi]
+DB	067h,067h
+	mov	rdx,r8
+	adcx	r13,rax
+	adcx	r14,rbp
+	lea	rsi,QWORD PTR[32+rsi]
+	lea	rbx,QWORD PTR[32+rbx]
+
+	adox	r10,r15
+	mulx	r15,rax,QWORD PTR[rcx]
+	adcx	r10,rax
+	adox	r11,r15
+	mulx	r15,rax,QWORD PTR[8+rcx]
+	adcx	r11,rax
+	adox	r12,r15
+	mulx	r15,rax,QWORD PTR[16+rcx]
+	mov	QWORD PTR[((-40))+rbx],r10
+	adcx	r12,rax
+	mov	QWORD PTR[((-32))+rbx],r11
+	adox	r13,r15
+	mulx	r15,rax,QWORD PTR[24+rcx]
+	mov	rdx,r9
+	mov	QWORD PTR[((-24))+rbx],r12
+	adcx	r13,rax
+	adox	r15,rbp
+	lea	rcx,QWORD PTR[32+rcx]
+	mov	QWORD PTR[((-16))+rbx],r13
+
+	dec	rdi
+	jnz	$L$mulx4x_1st
+
+	mov	rax,QWORD PTR[rsp]
+	mov	rdi,QWORD PTR[8+rsp]
+	adc	r15,rbp
+	add	r14,r15
+	sbb	r15,r15
+	mov	QWORD PTR[((-8))+rbx],r14
+	jmp	$L$mulx4x_outer
+
+ALIGN	32
+$L$mulx4x_outer::
+	mov	rdx,QWORD PTR[rdi]
+	lea	rdi,QWORD PTR[8+rdi]
+	sub	rsi,rax
+	mov	QWORD PTR[rbx],r15
+	lea	rbx,QWORD PTR[((64+32))+rsp]
+	sub	rcx,rax
+
+	mulx	r11,r8,QWORD PTR[rsi]
+	xor	ebp,ebp
+	mov	r9,rdx
+	mulx	r12,r14,QWORD PTR[8+rsi]
+	adox	r8,QWORD PTR[((-32))+rbx]
+	adcx	r11,r14
+	mulx	r13,r15,QWORD PTR[16+rsi]
+	adox	r11,QWORD PTR[((-24))+rbx]
+	adcx	r12,r15
+	adox	r12,rbp
+	adcx	r13,rbp
+
+	mov	QWORD PTR[8+rsp],rdi
+DB	067h
+	mov	r15,r8
+	imul	r8,QWORD PTR[24+rsp]
+	xor	ebp,ebp
+
+	mulx	r14,rax,QWORD PTR[24+rsi]
+	mov	rdx,r8
+	adox	r12,QWORD PTR[((-16))+rbx]
+	adcx	r13,rax
+	adox	r13,QWORD PTR[((-8))+rbx]
+	adcx	r14,rbp
+	lea	rsi,QWORD PTR[32+rsi]
+	adox	r14,rbp
+
+	mulx	r10,rax,QWORD PTR[rcx]
+	adcx	r15,rax
+	adox	r10,r11
+	mulx	r11,rax,QWORD PTR[8+rcx]
+	adcx	r10,rax
+	adox	r11,r12
+	mulx	r12,rax,QWORD PTR[16+rcx]
+	mov	QWORD PTR[((-32))+rbx],r10
+	adcx	r11,rax
+	adox	r12,r13
+	mulx	r15,rax,QWORD PTR[24+rcx]
+	mov	rdx,r9
+	mov	QWORD PTR[((-24))+rbx],r11
+	lea	rcx,QWORD PTR[32+rcx]
+	adcx	r12,rax
+	adox	r15,rbp
+	mov	rdi,QWORD PTR[48+rsp]
+	mov	QWORD PTR[((-16))+rbx],r12
+
+	jmp	$L$mulx4x_inner
+
+ALIGN	32
+$L$mulx4x_inner::
+	mulx	rax,r10,QWORD PTR[rsi]
+	adcx	r15,rbp
+	adox	r10,r14
+	mulx	r14,r11,QWORD PTR[8+rsi]
+	adcx	r10,QWORD PTR[rbx]
+	adox	r11,rax
+	mulx	rax,r12,QWORD PTR[16+rsi]
+	adcx	r11,QWORD PTR[8+rbx]
+	adox	r12,r14
+	mulx	r14,r13,QWORD PTR[24+rsi]
+	mov	rdx,r8
+	adcx	r12,QWORD PTR[16+rbx]
+	adox	r13,rax
+	adcx	r13,QWORD PTR[24+rbx]
+	adox	r14,rbp
+	lea	rsi,QWORD PTR[32+rsi]
+	lea	rbx,QWORD PTR[32+rbx]
+	adcx	r14,rbp
+
+	adox	r10,r15
+	mulx	r15,rax,QWORD PTR[rcx]
+	adcx	r10,rax
+	adox	r11,r15
+	mulx	r15,rax,QWORD PTR[8+rcx]
+	adcx	r11,rax
+	adox	r12,r15
+	mulx	r15,rax,QWORD PTR[16+rcx]
+	mov	QWORD PTR[((-40))+rbx],r10
+	adcx	r12,rax
+	adox	r13,r15
+	mulx	r15,rax,QWORD PTR[24+rcx]
+	mov	rdx,r9
+	mov	QWORD PTR[((-32))+rbx],r11
+	mov	QWORD PTR[((-24))+rbx],r12
+	adcx	r13,rax
+	adox	r15,rbp
+	lea	rcx,QWORD PTR[32+rcx]
+	mov	QWORD PTR[((-16))+rbx],r13
+
+	dec	rdi
+	jnz	$L$mulx4x_inner
+
+	mov	rax,QWORD PTR[rsp]
+	mov	rdi,QWORD PTR[8+rsp]
+	adc	r15,rbp
+	sub	rbp,QWORD PTR[rbx]
+	adc	r14,r15
+	sbb	r15,r15
+	mov	QWORD PTR[((-8))+rbx],r14
+
+	cmp	rdi,QWORD PTR[16+rsp]
+	jne	$L$mulx4x_outer
+
+	lea	rbx,QWORD PTR[64+rsp]
+	sub	rcx,rax
+	neg	r15
+	mov	rdx,rax
+	shr	rax,3+2
+	mov	rdi,QWORD PTR[32+rsp]
+	jmp	$L$mulx4x_sub
+
+ALIGN	32
+$L$mulx4x_sub::
+	mov	r11,QWORD PTR[rbx]
+	mov	r12,QWORD PTR[8+rbx]
+	mov	r13,QWORD PTR[16+rbx]
+	mov	r14,QWORD PTR[24+rbx]
+	lea	rbx,QWORD PTR[32+rbx]
+	sbb	r11,QWORD PTR[rcx]
+	sbb	r12,QWORD PTR[8+rcx]
+	sbb	r13,QWORD PTR[16+rcx]
+	sbb	r14,QWORD PTR[24+rcx]
+	lea	rcx,QWORD PTR[32+rcx]
+	mov	QWORD PTR[rdi],r11
+	mov	QWORD PTR[8+rdi],r12
+	mov	QWORD PTR[16+rdi],r13
+	mov	QWORD PTR[24+rdi],r14
+	lea	rdi,QWORD PTR[32+rdi]
+	dec	rax
+	jnz	$L$mulx4x_sub
+
+	sbb	r15,0
+	lea	rbx,QWORD PTR[64+rsp]
+	sub	rdi,rdx
+
+DB	102,73,15,110,207
+	pxor	xmm0,xmm0
+	pshufd	xmm1,xmm1,0
+	mov	rsi,QWORD PTR[40+rsp]
+	jmp	$L$mulx4x_cond_copy
+
+ALIGN	32
+$L$mulx4x_cond_copy::
+	movdqa	xmm2,XMMWORD PTR[rbx]
+	movdqa	xmm3,XMMWORD PTR[16+rbx]
+	lea	rbx,QWORD PTR[32+rbx]
+	movdqu	xmm4,XMMWORD PTR[rdi]
+	movdqu	xmm5,XMMWORD PTR[16+rdi]
+	lea	rdi,QWORD PTR[32+rdi]
+	movdqa	XMMWORD PTR[(-32)+rbx],xmm0
+	movdqa	XMMWORD PTR[(-16)+rbx],xmm0
+	pcmpeqd	xmm0,xmm1
+	pand	xmm2,xmm1
+	pand	xmm3,xmm1
+	pand	xmm4,xmm0
+	pand	xmm5,xmm0
+	pxor	xmm0,xmm0
+	por	xmm4,xmm2
+	por	xmm5,xmm3
+	movdqu	XMMWORD PTR[(-32)+rdi],xmm4
+	movdqu	XMMWORD PTR[(-16)+rdi],xmm5
+	sub	rdx,32
+	jnz	$L$mulx4x_cond_copy
+
+	mov	QWORD PTR[rbx],rdx
+
+	mov	rax,1
+	mov	r15,QWORD PTR[((-48))+rsi]
+	mov	r14,QWORD PTR[((-40))+rsi]
+	mov	r13,QWORD PTR[((-32))+rsi]
+	mov	r12,QWORD PTR[((-24))+rsi]
+	mov	rbp,QWORD PTR[((-16))+rsi]
+	mov	rbx,QWORD PTR[((-8))+rsi]
+	lea	rsp,QWORD PTR[rsi]
+$L$mulx4x_epilogue::
+	mov	rdi,QWORD PTR[8+rsp]	;WIN64 epilogue
+	mov	rsi,QWORD PTR[16+rsp]
+	DB	0F3h,0C3h		;repret
+$L$SEH_end_bn_mulx4x_mont::
+bn_mulx4x_mont	ENDP
 DB	77,111,110,116,103,111,109,101,114,121,32,77,117,108,116,105
 DB	112,108,105,99,97,116,105,111,110,32,102,111,114,32,120,56
 DB	54,95,54,52,44,32,67,82,89,80,84,79,71,65,77,83
@@ -926,6 +1309,9 @@ ALIGN	4
 	DD	imagerel $L$SEH_begin_bn_sqr8x_mont
 	DD	imagerel $L$SEH_end_bn_sqr8x_mont
 	DD	imagerel $L$SEH_info_bn_sqr8x_mont
+	DD	imagerel $L$SEH_begin_bn_mulx4x_mont
+	DD	imagerel $L$SEH_end_bn_mulx4x_mont
+	DD	imagerel $L$SEH_info_bn_mulx4x_mont
 .pdata	ENDS
 .xdata	SEGMENT READONLY ALIGN(8)
 ALIGN	8
@@ -941,6 +1327,10 @@ $L$SEH_info_bn_sqr8x_mont::
 DB	9,0,0,0
 	DD	imagerel sqr_handler
 	DD	imagerel $L$sqr8x_body,imagerel $L$sqr8x_epilogue
+$L$SEH_info_bn_mulx4x_mont::
+DB	9,0,0,0
+	DD	imagerel sqr_handler
+	DD	imagerel $L$mulx4x_body,imagerel $L$mulx4x_epilogue
 
 .xdata	ENDS
 END

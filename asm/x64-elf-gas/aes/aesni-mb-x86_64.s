@@ -2,7 +2,6 @@
 
 
 
-
 .globl	aesni_multi_cbc_encrypt
 .type	aesni_multi_cbc_encrypt,@function
 .align	32

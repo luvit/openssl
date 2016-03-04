@@ -1,6 +1,5 @@
 .text
 
-
 .globl	_rsaz_avx2_eligible
 
 _rsaz_avx2_eligible:
