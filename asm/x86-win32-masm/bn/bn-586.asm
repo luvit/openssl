@@ -1,15 +1,8 @@
-TITLE	openssl/crypto/bn/asm/bn-586.asm
+TITLE	../openssl/crypto/bn/asm/bn-586.asm
 IF @Version LT 800
 ECHO MASM version 8.00 or later is strongly recommended.
 ENDIF
-.686
-.XMM
-IF @Version LT 800
-XMMWORD STRUCT 16
-DQ	2 dup (?)
-XMMWORD	ENDS
-ENDIF
-
+.486
 .MODEL	FLAT
 OPTION	DOTNAME
 IF @Version LT 800
@@ -17,108 +10,14 @@ IF @Version LT 800
 ELSE
 .text$	SEGMENT ALIGN(64) 'CODE'
 ENDIF
-;EXTERN	_OPENSSL_ia32cap_P:NEAR
 ALIGN	16
 _bn_mul_add_words	PROC PUBLIC
 $L_bn_mul_add_words_begin::
-	lea	eax,DWORD PTR _OPENSSL_ia32cap_P
-	bt	DWORD PTR [eax],26
-	jnc	$L000maw_non_sse2
-	mov	eax,DWORD PTR 4[esp]
-	mov	edx,DWORD PTR 8[esp]
-	mov	ecx,DWORD PTR 12[esp]
-	movd	mm0,DWORD PTR 16[esp]
-	pxor	mm1,mm1
-	jmp	$L001maw_sse2_entry
-ALIGN	16
-$L002maw_sse2_unrolled:
-	movd	mm3,DWORD PTR [eax]
-	paddq	mm1,mm3
-	movd	mm2,DWORD PTR [edx]
-	pmuludq	mm2,mm0
-	movd	mm4,DWORD PTR 4[edx]
-	pmuludq	mm4,mm0
-	movd	mm6,DWORD PTR 8[edx]
-	pmuludq	mm6,mm0
-	movd	mm7,DWORD PTR 12[edx]
-	pmuludq	mm7,mm0
-	paddq	mm1,mm2
-	movd	mm3,DWORD PTR 4[eax]
-	paddq	mm3,mm4
-	movd	mm5,DWORD PTR 8[eax]
-	paddq	mm5,mm6
-	movd	mm4,DWORD PTR 12[eax]
-	paddq	mm7,mm4
-	movd	DWORD PTR [eax],mm1
-	movd	mm2,DWORD PTR 16[edx]
-	pmuludq	mm2,mm0
-	psrlq	mm1,32
-	movd	mm4,DWORD PTR 20[edx]
-	pmuludq	mm4,mm0
-	paddq	mm1,mm3
-	movd	mm6,DWORD PTR 24[edx]
-	pmuludq	mm6,mm0
-	movd	DWORD PTR 4[eax],mm1
-	psrlq	mm1,32
-	movd	mm3,DWORD PTR 28[edx]
-	add	edx,32
-	pmuludq	mm3,mm0
-	paddq	mm1,mm5
-	movd	mm5,DWORD PTR 16[eax]
-	paddq	mm2,mm5
-	movd	DWORD PTR 8[eax],mm1
-	psrlq	mm1,32
-	paddq	mm1,mm7
-	movd	mm5,DWORD PTR 20[eax]
-	paddq	mm4,mm5
-	movd	DWORD PTR 12[eax],mm1
-	psrlq	mm1,32
-	paddq	mm1,mm2
-	movd	mm5,DWORD PTR 24[eax]
-	paddq	mm6,mm5
-	movd	DWORD PTR 16[eax],mm1
-	psrlq	mm1,32
-	paddq	mm1,mm4
-	movd	mm5,DWORD PTR 28[eax]
-	paddq	mm3,mm5
-	movd	DWORD PTR 20[eax],mm1
-	psrlq	mm1,32
-	paddq	mm1,mm6
-	movd	DWORD PTR 24[eax],mm1
-	psrlq	mm1,32
-	paddq	mm1,mm3
-	movd	DWORD PTR 28[eax],mm1
-	lea	eax,DWORD PTR 32[eax]
-	psrlq	mm1,32
-	sub	ecx,8
-	jz	$L003maw_sse2_exit
-$L001maw_sse2_entry:
-	test	ecx,4294967288
-	jnz	$L002maw_sse2_unrolled
-ALIGN	4
-$L004maw_sse2_loop:
-	movd	mm2,DWORD PTR [edx]
-	movd	mm3,DWORD PTR [eax]
-	pmuludq	mm2,mm0
-	lea	edx,DWORD PTR 4[edx]
-	paddq	mm1,mm3
-	paddq	mm1,mm2
-	movd	DWORD PTR [eax],mm1
-	sub	ecx,1
-	psrlq	mm1,32
-	lea	eax,DWORD PTR 4[eax]
-	jnz	$L004maw_sse2_loop
-$L003maw_sse2_exit:
-	movd	eax,mm1
-	emms
-	ret
-ALIGN	16
-$L000maw_non_sse2:
 	push	ebp
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	xor	esi,esi
 	mov	edi,DWORD PTR 20[esp]
 	mov	ecx,DWORD PTR 28[esp]
@@ -126,9 +25,9 @@ $L000maw_non_sse2:
 	and	ecx,4294967288
 	mov	ebp,DWORD PTR 32[esp]
 	push	ecx
-	jz	$L005maw_finish
+	jz	$L000maw_finish
 ALIGN	16
-$L006maw_loop:
+$L001maw_loop:
 	; Round 0
 	mov	eax,DWORD PTR [ebx]
 	mul	ebp
@@ -201,17 +100,17 @@ $L006maw_loop:
 	adc	edx,0
 	mov	DWORD PTR 28[edi],eax
 	mov	esi,edx
-	; 
+	;
 	sub	ecx,8
 	lea	ebx,DWORD PTR 32[ebx]
 	lea	edi,DWORD PTR 32[edi]
-	jnz	$L006maw_loop
-$L005maw_finish:
+	jnz	$L001maw_loop
+$L000maw_finish:
 	mov	ecx,DWORD PTR 32[esp]
 	and	ecx,7
-	jnz	$L007maw_finish2
-	jmp	$L008maw_end
-$L007maw_finish2:
+	jnz	$L002maw_finish2
+	jmp	$L003maw_end
+$L002maw_finish2:
 	; Tail Round 0
 	mov	eax,DWORD PTR [ebx]
 	mul	ebp
@@ -222,7 +121,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR [edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 1
 	mov	eax,DWORD PTR 4[ebx]
 	mul	ebp
@@ -233,7 +132,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR 4[edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 2
 	mov	eax,DWORD PTR 8[ebx]
 	mul	ebp
@@ -244,7 +143,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR 8[edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 3
 	mov	eax,DWORD PTR 12[ebx]
 	mul	ebp
@@ -255,7 +154,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR 12[edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 4
 	mov	eax,DWORD PTR 16[ebx]
 	mul	ebp
@@ -266,7 +165,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR 16[edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 5
 	mov	eax,DWORD PTR 20[ebx]
 	mul	ebp
@@ -277,7 +176,7 @@ $L007maw_finish2:
 	dec	ecx
 	mov	DWORD PTR 20[edi],eax
 	mov	esi,edx
-	jz	$L008maw_end
+	jz	$L003maw_end
 	; Tail Round 6
 	mov	eax,DWORD PTR 24[ebx]
 	mul	ebp
@@ -287,7 +186,7 @@ $L007maw_finish2:
 	adc	edx,0
 	mov	DWORD PTR 24[edi],eax
 	mov	esi,edx
-$L008maw_end:
+$L003maw_end:
 	mov	eax,esi
 	pop	ecx
 	pop	edi
@@ -299,43 +198,19 @@ _bn_mul_add_words ENDP
 ALIGN	16
 _bn_mul_words	PROC PUBLIC
 $L_bn_mul_words_begin::
-	lea	eax,DWORD PTR _OPENSSL_ia32cap_P
-	bt	DWORD PTR [eax],26
-	jnc	$L009mw_non_sse2
-	mov	eax,DWORD PTR 4[esp]
-	mov	edx,DWORD PTR 8[esp]
-	mov	ecx,DWORD PTR 12[esp]
-	movd	mm0,DWORD PTR 16[esp]
-	pxor	mm1,mm1
-ALIGN	16
-$L010mw_sse2_loop:
-	movd	mm2,DWORD PTR [edx]
-	pmuludq	mm2,mm0
-	lea	edx,DWORD PTR 4[edx]
-	paddq	mm1,mm2
-	movd	DWORD PTR [eax],mm1
-	sub	ecx,1
-	psrlq	mm1,32
-	lea	eax,DWORD PTR 4[eax]
-	jnz	$L010mw_sse2_loop
-	movd	eax,mm1
-	emms
-	ret
-ALIGN	16
-$L009mw_non_sse2:
 	push	ebp
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	xor	esi,esi
 	mov	edi,DWORD PTR 20[esp]
 	mov	ebx,DWORD PTR 24[esp]
 	mov	ebp,DWORD PTR 28[esp]
 	mov	ecx,DWORD PTR 32[esp]
 	and	ebp,4294967288
-	jz	$L011mw_finish
-$L012mw_loop:
+	jz	$L004mw_finish
+$L005mw_loop:
 	; Round 0
 	mov	eax,DWORD PTR [ebx]
 	mul	ecx
@@ -392,18 +267,18 @@ $L012mw_loop:
 	adc	edx,0
 	mov	DWORD PTR 28[edi],eax
 	mov	esi,edx
-	; 
+	;
 	add	ebx,32
 	add	edi,32
 	sub	ebp,8
-	jz	$L011mw_finish
-	jmp	$L012mw_loop
-$L011mw_finish:
+	jz	$L004mw_finish
+	jmp	$L005mw_loop
+$L004mw_finish:
 	mov	ebp,DWORD PTR 28[esp]
 	and	ebp,7
-	jnz	$L013mw_finish2
-	jmp	$L014mw_end
-$L013mw_finish2:
+	jnz	$L006mw_finish2
+	jmp	$L007mw_end
+$L006mw_finish2:
 	; Tail Round 0
 	mov	eax,DWORD PTR [ebx]
 	mul	ecx
@@ -412,7 +287,7 @@ $L013mw_finish2:
 	mov	DWORD PTR [edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 1
 	mov	eax,DWORD PTR 4[ebx]
 	mul	ecx
@@ -421,7 +296,7 @@ $L013mw_finish2:
 	mov	DWORD PTR 4[edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 2
 	mov	eax,DWORD PTR 8[ebx]
 	mul	ecx
@@ -430,7 +305,7 @@ $L013mw_finish2:
 	mov	DWORD PTR 8[edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 3
 	mov	eax,DWORD PTR 12[ebx]
 	mul	ecx
@@ -439,7 +314,7 @@ $L013mw_finish2:
 	mov	DWORD PTR 12[edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 4
 	mov	eax,DWORD PTR 16[ebx]
 	mul	ecx
@@ -448,7 +323,7 @@ $L013mw_finish2:
 	mov	DWORD PTR 16[edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 5
 	mov	eax,DWORD PTR 20[ebx]
 	mul	ecx
@@ -457,7 +332,7 @@ $L013mw_finish2:
 	mov	DWORD PTR 20[edi],eax
 	mov	esi,edx
 	dec	ebp
-	jz	$L014mw_end
+	jz	$L007mw_end
 	; Tail Round 6
 	mov	eax,DWORD PTR 24[ebx]
 	mul	ecx
@@ -465,7 +340,7 @@ $L013mw_finish2:
 	adc	edx,0
 	mov	DWORD PTR 24[edi],eax
 	mov	esi,edx
-$L014mw_end:
+$L007mw_end:
 	mov	eax,esi
 	pop	edi
 	pop	esi
@@ -476,36 +351,17 @@ _bn_mul_words ENDP
 ALIGN	16
 _bn_sqr_words	PROC PUBLIC
 $L_bn_sqr_words_begin::
-	lea	eax,DWORD PTR _OPENSSL_ia32cap_P
-	bt	DWORD PTR [eax],26
-	jnc	$L015sqr_non_sse2
-	mov	eax,DWORD PTR 4[esp]
-	mov	edx,DWORD PTR 8[esp]
-	mov	ecx,DWORD PTR 12[esp]
-ALIGN	16
-$L016sqr_sse2_loop:
-	movd	mm0,DWORD PTR [edx]
-	pmuludq	mm0,mm0
-	lea	edx,DWORD PTR 4[edx]
-	movq	QWORD PTR [eax],mm0
-	sub	ecx,1
-	lea	eax,DWORD PTR 8[eax]
-	jnz	$L016sqr_sse2_loop
-	emms
-	ret
-ALIGN	16
-$L015sqr_non_sse2:
 	push	ebp
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	esi,DWORD PTR 20[esp]
 	mov	edi,DWORD PTR 24[esp]
 	mov	ebx,DWORD PTR 28[esp]
 	and	ebx,4294967288
-	jz	$L017sw_finish
-$L018sw_loop:
+	jz	$L008sw_finish
+$L009sw_loop:
 	; Round 0
 	mov	eax,DWORD PTR [edi]
 	mul	eax
@@ -546,63 +402,63 @@ $L018sw_loop:
 	mul	eax
 	mov	DWORD PTR 56[esi],eax
 	mov	DWORD PTR 60[esi],edx
-	; 
+	;
 	add	edi,32
 	add	esi,64
 	sub	ebx,8
-	jnz	$L018sw_loop
-$L017sw_finish:
+	jnz	$L009sw_loop
+$L008sw_finish:
 	mov	ebx,DWORD PTR 28[esp]
 	and	ebx,7
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 0
 	mov	eax,DWORD PTR [edi]
 	mul	eax
 	mov	DWORD PTR [esi],eax
 	dec	ebx
 	mov	DWORD PTR 4[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 1
 	mov	eax,DWORD PTR 4[edi]
 	mul	eax
 	mov	DWORD PTR 8[esi],eax
 	dec	ebx
 	mov	DWORD PTR 12[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 2
 	mov	eax,DWORD PTR 8[edi]
 	mul	eax
 	mov	DWORD PTR 16[esi],eax
 	dec	ebx
 	mov	DWORD PTR 20[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 3
 	mov	eax,DWORD PTR 12[edi]
 	mul	eax
 	mov	DWORD PTR 24[esi],eax
 	dec	ebx
 	mov	DWORD PTR 28[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 4
 	mov	eax,DWORD PTR 16[edi]
 	mul	eax
 	mov	DWORD PTR 32[esi],eax
 	dec	ebx
 	mov	DWORD PTR 36[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 5
 	mov	eax,DWORD PTR 20[edi]
 	mul	eax
 	mov	DWORD PTR 40[esi],eax
 	dec	ebx
 	mov	DWORD PTR 44[esi],edx
-	jz	$L019sw_end
+	jz	$L010sw_end
 	; Tail Round 6
 	mov	eax,DWORD PTR 24[edi]
 	mul	eax
 	mov	DWORD PTR 48[esi],eax
 	mov	DWORD PTR 52[esi],edx
-$L019sw_end:
+$L010sw_end:
 	pop	edi
 	pop	esi
 	pop	ebx
@@ -625,15 +481,15 @@ $L_bn_add_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
 	mov	ebp,DWORD PTR 32[esp]
 	xor	eax,eax
 	and	ebp,4294967288
-	jz	$L020aw_finish
-$L021aw_loop:
+	jz	$L011aw_finish
+$L012aw_loop:
 	; Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -706,16 +562,16 @@ $L021aw_loop:
 	add	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L021aw_loop
-$L020aw_finish:
+	jnz	$L012aw_loop
+$L011aw_finish:
 	mov	ebp,DWORD PTR 32[esp]
 	and	ebp,7
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -726,7 +582,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR [ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 1
 	mov	ecx,DWORD PTR 4[esi]
 	mov	edx,DWORD PTR 4[edi]
@@ -737,7 +593,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 4[ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 2
 	mov	ecx,DWORD PTR 8[esi]
 	mov	edx,DWORD PTR 8[edi]
@@ -748,7 +604,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 8[ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 3
 	mov	ecx,DWORD PTR 12[esi]
 	mov	edx,DWORD PTR 12[edi]
@@ -759,7 +615,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 12[ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 4
 	mov	ecx,DWORD PTR 16[esi]
 	mov	edx,DWORD PTR 16[edi]
@@ -770,7 +626,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 16[ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 5
 	mov	ecx,DWORD PTR 20[esi]
 	mov	edx,DWORD PTR 20[edi]
@@ -781,7 +637,7 @@ $L020aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 20[ebx],ecx
-	jz	$L022aw_end
+	jz	$L013aw_end
 	; Tail Round 6
 	mov	ecx,DWORD PTR 24[esi]
 	mov	edx,DWORD PTR 24[edi]
@@ -791,7 +647,7 @@ $L020aw_finish:
 	add	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 24[ebx],ecx
-$L022aw_end:
+$L013aw_end:
 	pop	edi
 	pop	esi
 	pop	ebx
@@ -805,15 +661,15 @@ $L_bn_sub_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
 	mov	ebp,DWORD PTR 32[esp]
 	xor	eax,eax
 	and	ebp,4294967288
-	jz	$L023aw_finish
-$L024aw_loop:
+	jz	$L014aw_finish
+$L015aw_loop:
 	; Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -886,16 +742,16 @@ $L024aw_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L024aw_loop
-$L023aw_finish:
+	jnz	$L015aw_loop
+$L014aw_finish:
 	mov	ebp,DWORD PTR 32[esp]
 	and	ebp,7
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -906,7 +762,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR [ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 1
 	mov	ecx,DWORD PTR 4[esi]
 	mov	edx,DWORD PTR 4[edi]
@@ -917,7 +773,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 4[ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 2
 	mov	ecx,DWORD PTR 8[esi]
 	mov	edx,DWORD PTR 8[edi]
@@ -928,7 +784,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 8[ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 3
 	mov	ecx,DWORD PTR 12[esi]
 	mov	edx,DWORD PTR 12[edi]
@@ -939,7 +795,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 12[ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 4
 	mov	ecx,DWORD PTR 16[esi]
 	mov	edx,DWORD PTR 16[edi]
@@ -950,7 +806,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 16[ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 5
 	mov	ecx,DWORD PTR 20[esi]
 	mov	edx,DWORD PTR 20[edi]
@@ -961,7 +817,7 @@ $L023aw_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 20[ebx],ecx
-	jz	$L025aw_end
+	jz	$L016aw_end
 	; Tail Round 6
 	mov	ecx,DWORD PTR 24[esi]
 	mov	edx,DWORD PTR 24[edi]
@@ -971,7 +827,7 @@ $L023aw_finish:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 24[ebx],ecx
-$L025aw_end:
+$L016aw_end:
 	pop	edi
 	pop	esi
 	pop	ebx
@@ -985,15 +841,15 @@ $L_bn_sub_part_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
 	mov	ebp,DWORD PTR 32[esp]
 	xor	eax,eax
 	and	ebp,4294967288
-	jz	$L026aw_finish
-$L027aw_loop:
+	jz	$L017aw_finish
+$L018aw_loop:
 	; Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1066,16 +922,16 @@ $L027aw_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L027aw_loop
-$L026aw_finish:
+	jnz	$L018aw_loop
+$L017aw_finish:
 	mov	ebp,DWORD PTR 32[esp]
 	and	ebp,7
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 0
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1089,7 +945,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 1
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1103,7 +959,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 2
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1117,7 +973,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 3
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1131,7 +987,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 4
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1145,7 +1001,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 5
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1159,7 +1015,7 @@ $L026aw_finish:
 	add	edi,4
 	add	ebx,4
 	dec	ebp
-	jz	$L028aw_end
+	jz	$L019aw_end
 	; Tail Round 6
 	mov	ecx,DWORD PTR [esi]
 	mov	edx,DWORD PTR [edi]
@@ -1172,20 +1028,20 @@ $L026aw_finish:
 	add	esi,4
 	add	edi,4
 	add	ebx,4
-$L028aw_end:
+$L019aw_end:
 	cmp	DWORD PTR 36[esp],0
-	je	$L029pw_end
+	je	$L020pw_end
 	mov	ebp,DWORD PTR 36[esp]
 	cmp	ebp,0
-	je	$L029pw_end
-	jge	$L030pw_pos
+	je	$L020pw_end
+	jge	$L021pw_pos
 	; pw_neg
 	mov	edx,0
 	sub	edx,ebp
 	mov	ebp,edx
 	and	ebp,4294967288
-	jz	$L031pw_neg_finish
-$L032pw_neg_loop:
+	jz	$L022pw_neg_finish
+$L023pw_neg_loop:
 	; dl<0 Round 0
 	mov	ecx,0
 	mov	edx,DWORD PTR [edi]
@@ -1258,17 +1114,17 @@ $L032pw_neg_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	edi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L032pw_neg_loop
-$L031pw_neg_finish:
+	jnz	$L023pw_neg_loop
+$L022pw_neg_finish:
 	mov	edx,DWORD PTR 36[esp]
 	mov	ebp,0
 	sub	ebp,edx
 	and	ebp,7
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 0
 	mov	ecx,0
 	mov	edx,DWORD PTR [edi]
@@ -1279,7 +1135,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR [ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 1
 	mov	ecx,0
 	mov	edx,DWORD PTR 4[edi]
@@ -1290,7 +1146,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 4[ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 2
 	mov	ecx,0
 	mov	edx,DWORD PTR 8[edi]
@@ -1301,7 +1157,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 8[ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 3
 	mov	ecx,0
 	mov	edx,DWORD PTR 12[edi]
@@ -1312,7 +1168,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 12[ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 4
 	mov	ecx,0
 	mov	edx,DWORD PTR 16[edi]
@@ -1323,7 +1179,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 16[ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 5
 	mov	ecx,0
 	mov	edx,DWORD PTR 20[edi]
@@ -1334,7 +1190,7 @@ $L031pw_neg_finish:
 	adc	eax,0
 	dec	ebp
 	mov	DWORD PTR 20[ebx],ecx
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl<0 Tail Round 6
 	mov	ecx,0
 	mov	edx,DWORD PTR 24[edi]
@@ -1344,178 +1200,178 @@ $L031pw_neg_finish:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 24[ebx],ecx
-	jmp	$L029pw_end
-$L030pw_pos:
+	jmp	$L020pw_end
+$L021pw_pos:
 	and	ebp,4294967288
-	jz	$L033pw_pos_finish
-$L034pw_pos_loop:
+	jz	$L024pw_pos_finish
+$L025pw_pos_loop:
 	; dl>0 Round 0
 	mov	ecx,DWORD PTR [esi]
 	sub	ecx,eax
 	mov	DWORD PTR [ebx],ecx
-	jnc	$L035pw_nc0
+	jnc	$L026pw_nc0
 	; dl>0 Round 1
 	mov	ecx,DWORD PTR 4[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 4[ebx],ecx
-	jnc	$L036pw_nc1
+	jnc	$L027pw_nc1
 	; dl>0 Round 2
 	mov	ecx,DWORD PTR 8[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 8[ebx],ecx
-	jnc	$L037pw_nc2
+	jnc	$L028pw_nc2
 	; dl>0 Round 3
 	mov	ecx,DWORD PTR 12[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 12[ebx],ecx
-	jnc	$L038pw_nc3
+	jnc	$L029pw_nc3
 	; dl>0 Round 4
 	mov	ecx,DWORD PTR 16[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 16[ebx],ecx
-	jnc	$L039pw_nc4
+	jnc	$L030pw_nc4
 	; dl>0 Round 5
 	mov	ecx,DWORD PTR 20[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 20[ebx],ecx
-	jnc	$L040pw_nc5
+	jnc	$L031pw_nc5
 	; dl>0 Round 6
 	mov	ecx,DWORD PTR 24[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 24[ebx],ecx
-	jnc	$L041pw_nc6
+	jnc	$L032pw_nc6
 	; dl>0 Round 7
 	mov	ecx,DWORD PTR 28[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 28[ebx],ecx
-	jnc	$L042pw_nc7
-	; 
+	jnc	$L033pw_nc7
+	;
 	add	esi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L034pw_pos_loop
-$L033pw_pos_finish:
+	jnz	$L025pw_pos_loop
+$L024pw_pos_finish:
 	mov	ebp,DWORD PTR 36[esp]
 	and	ebp,7
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 0
 	mov	ecx,DWORD PTR [esi]
 	sub	ecx,eax
 	mov	DWORD PTR [ebx],ecx
-	jnc	$L043pw_tail_nc0
+	jnc	$L034pw_tail_nc0
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 1
 	mov	ecx,DWORD PTR 4[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 4[ebx],ecx
-	jnc	$L044pw_tail_nc1
+	jnc	$L035pw_tail_nc1
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 2
 	mov	ecx,DWORD PTR 8[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 8[ebx],ecx
-	jnc	$L045pw_tail_nc2
+	jnc	$L036pw_tail_nc2
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 3
 	mov	ecx,DWORD PTR 12[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 12[ebx],ecx
-	jnc	$L046pw_tail_nc3
+	jnc	$L037pw_tail_nc3
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 4
 	mov	ecx,DWORD PTR 16[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 16[ebx],ecx
-	jnc	$L047pw_tail_nc4
+	jnc	$L038pw_tail_nc4
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 5
 	mov	ecx,DWORD PTR 20[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 20[ebx],ecx
-	jnc	$L048pw_tail_nc5
+	jnc	$L039pw_tail_nc5
 	dec	ebp
-	jz	$L029pw_end
+	jz	$L020pw_end
 	; dl>0 Tail Round 6
 	mov	ecx,DWORD PTR 24[esi]
 	sub	ecx,eax
 	mov	DWORD PTR 24[ebx],ecx
-	jnc	$L049pw_tail_nc6
+	jnc	$L040pw_tail_nc6
 	mov	eax,1
-	jmp	$L029pw_end
-$L050pw_nc_loop:
+	jmp	$L020pw_end
+$L041pw_nc_loop:
 	mov	ecx,DWORD PTR [esi]
 	mov	DWORD PTR [ebx],ecx
-$L035pw_nc0:
+$L026pw_nc0:
 	mov	ecx,DWORD PTR 4[esi]
 	mov	DWORD PTR 4[ebx],ecx
-$L036pw_nc1:
+$L027pw_nc1:
 	mov	ecx,DWORD PTR 8[esi]
 	mov	DWORD PTR 8[ebx],ecx
-$L037pw_nc2:
+$L028pw_nc2:
 	mov	ecx,DWORD PTR 12[esi]
 	mov	DWORD PTR 12[ebx],ecx
-$L038pw_nc3:
+$L029pw_nc3:
 	mov	ecx,DWORD PTR 16[esi]
 	mov	DWORD PTR 16[ebx],ecx
-$L039pw_nc4:
+$L030pw_nc4:
 	mov	ecx,DWORD PTR 20[esi]
 	mov	DWORD PTR 20[ebx],ecx
-$L040pw_nc5:
+$L031pw_nc5:
 	mov	ecx,DWORD PTR 24[esi]
 	mov	DWORD PTR 24[ebx],ecx
-$L041pw_nc6:
+$L032pw_nc6:
 	mov	ecx,DWORD PTR 28[esi]
 	mov	DWORD PTR 28[ebx],ecx
-$L042pw_nc7:
-	; 
+$L033pw_nc7:
+	;
 	add	esi,32
 	add	ebx,32
 	sub	ebp,8
-	jnz	$L050pw_nc_loop
+	jnz	$L041pw_nc_loop
 	mov	ebp,DWORD PTR 36[esp]
 	and	ebp,7
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR [esi]
 	mov	DWORD PTR [ebx],ecx
-$L043pw_tail_nc0:
+$L034pw_tail_nc0:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 4[esi]
 	mov	DWORD PTR 4[ebx],ecx
-$L044pw_tail_nc1:
+$L035pw_tail_nc1:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 8[esi]
 	mov	DWORD PTR 8[ebx],ecx
-$L045pw_tail_nc2:
+$L036pw_tail_nc2:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 12[esi]
 	mov	DWORD PTR 12[ebx],ecx
-$L046pw_tail_nc3:
+$L037pw_tail_nc3:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 16[esi]
 	mov	DWORD PTR 16[ebx],ecx
-$L047pw_tail_nc4:
+$L038pw_tail_nc4:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 20[esi]
 	mov	DWORD PTR 20[ebx],ecx
-$L048pw_tail_nc5:
+$L039pw_tail_nc5:
 	dec	ebp
-	jz	$L051pw_nc_end
+	jz	$L042pw_nc_end
 	mov	ecx,DWORD PTR 24[esi]
 	mov	DWORD PTR 24[ebx],ecx
-$L049pw_tail_nc6:
-$L051pw_nc_end:
+$L040pw_tail_nc6:
+$L042pw_nc_end:
 	mov	eax,0
-$L029pw_end:
+$L020pw_end:
 	pop	edi
 	pop	esi
 	pop	ebx
@@ -1523,7 +1379,4 @@ $L029pw_end:
 	ret
 _bn_sub_part_words ENDP
 .text$	ENDS
-.bss	SEGMENT 'BSS'
-COMM	_OPENSSL_ia32cap_P:DWORD:4
-.bss	ENDS
 END

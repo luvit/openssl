@@ -19,7 +19,6 @@ $L_fcrypt_body_begin::
 	push	esi
 	push	edi
 	;
-
 	; Load the 2 words
 	xor	edi,edi
 	xor	esi,esi
@@ -29,7 +28,6 @@ $L_fcrypt_body_begin::
 	push	25
 $L000start:
 	;
-
 	; Round 0
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -80,7 +78,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 1
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -131,7 +128,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 2
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -182,7 +178,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 3
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -233,7 +228,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 4
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -284,7 +278,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 5
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -335,7 +328,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 6
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -386,7 +378,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 7
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -437,7 +428,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 8
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -488,7 +478,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 9
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -539,7 +528,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 10
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -590,7 +578,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 11
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -641,7 +628,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 12
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -692,7 +678,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 13
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -743,7 +728,6 @@ $L000start:
 	xor	esi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 14
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,esi
@@ -794,7 +778,6 @@ $L000start:
 	xor	edi,ebx
 	mov	ebp,DWORD PTR 32[esp]
 	;
-
 	; Round 15
 	mov	eax,DWORD PTR 36[esp]
 	mov	edx,edi
@@ -852,7 +835,6 @@ $L000start:
 	mov	DWORD PTR [esp],ebx
 	jnz	$L000start
 	;
-
 	; FP
 	mov	edx,DWORD PTR 28[esp]
 	ror	edi,1
@@ -862,7 +844,6 @@ $L000start:
 	xor	eax,esi
 	xor	edi,esi
 	;
-
 	rol	eax,23
 	mov	esi,eax
 	xor	eax,edi
@@ -870,7 +851,6 @@ $L000start:
 	xor	esi,eax
 	xor	edi,eax
 	;
-
 	rol	esi,10
 	mov	eax,esi
 	xor	esi,edi
@@ -878,7 +858,6 @@ $L000start:
 	xor	eax,esi
 	xor	edi,esi
 	;
-
 	rol	edi,18
 	mov	esi,edi
 	xor	edi,eax
@@ -886,7 +865,6 @@ $L000start:
 	xor	esi,edi
 	xor	eax,edi
 	;
-
 	rol	esi,12
 	mov	edi,esi
 	xor	esi,eax
@@ -894,7 +872,6 @@ $L000start:
 	xor	edi,esi
 	xor	eax,esi
 	;
-
 	ror	eax,4
 	mov	DWORD PTR [edx],eax
 	mov	DWORD PTR 4[edx],edi

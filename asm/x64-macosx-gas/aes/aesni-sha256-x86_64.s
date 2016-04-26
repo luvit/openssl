@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	_aesni_cbc_sha256_enc
 
 .p2align	4

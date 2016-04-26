@@ -10,8 +10,7 @@ L_RC5_32_encrypt_begin:
 	pushl	%edi
 	movl	16(%esp),%edx
 	movl	20(%esp),%ebp
-	# Load the 2 words
-
+	# Load the 2 words 
 	movl	(%edx),%edi
 	movl	4(%edx),%esi
 	pushl	%ebx
@@ -200,8 +199,7 @@ L_RC5_32_decrypt_begin:
 	pushl	%edi
 	movl	16(%esp),%edx
 	movl	20(%esp),%ebp
-	# Load the 2 words
-
+	# Load the 2 words 
 	movl	(%edx),%edi
 	movl	4(%edx),%esi
 	pushl	%ebx
@@ -392,8 +390,7 @@ L_RC5_32_cbc_encrypt_begin:
 	pushl	%esi
 	pushl	%edi
 	movl	28(%esp),%ebp
-	# getting iv ptr from parameter 4
-
+	# getting iv ptr from parameter 4 
 	movl	36(%esp),%ebx
 	movl	(%ebx),%esi
 	movl	4(%ebx),%edi
@@ -404,11 +401,9 @@ L_RC5_32_cbc_encrypt_begin:
 	movl	%esp,%ebx
 	movl	36(%esp),%esi
 	movl	40(%esp),%edi
-	# getting encrypt flag from parameter 5
-
+	# getting encrypt flag from parameter 5 
 	movl	56(%esp),%ecx
-	# get and push parameter 3
-
+	# get and push parameter 3 
 	movl	48(%esp),%eax
 	pushl	%eax
 	pushl	%ebx

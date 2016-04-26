@@ -1,6 +1,5 @@
 .text
 
-
 .globl	_aesni_gcm_encrypt
 
 _aesni_gcm_encrypt:

@@ -1,5 +1,4 @@
-.text
-
+.text	
 .p2align	4
 
 .globl	_rc4_md5_enc
@@ -1257,3 +1256,4 @@ L$oop:
 L$epilogue:
 L$abort:
 	.byte	0xf3,0xc3
+

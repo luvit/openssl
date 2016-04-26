@@ -1,6 +1,5 @@
 .text
 
-
 .globl	whirlpool_block
 .type	whirlpool_block,@function
 .align	16

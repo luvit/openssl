@@ -1,7 +1,6 @@
 .text
 
 
-
 .p2align	4
 _mul_1x1:
 	subq	$128+8,%rsp
@@ -243,7 +242,7 @@ L$body_mul_2x2:
 	movq	%rcx,56(%rsp)
 	movq	%r8,64(%rsp)
 
-	movq	$15,%r8
+	movq	$0xf,%r8
 	movq	%rsi,%rax
 	movq	%rcx,%rbp
 	call	_mul_1x1

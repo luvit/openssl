@@ -1,6 +1,5 @@
 .text
 
-
 .globl	aesni_gcm_encrypt
 .type	aesni_gcm_encrypt,@function
 aesni_gcm_encrypt:

@@ -10,7 +10,6 @@ L_fcrypt_body_begin:
 	pushl	%edi
 
 	# Load the 2 words
-
 	xorl	%edi,%edi
 	xorl	%esi,%esi
 	call	L000PIC_me_up
@@ -23,7 +22,6 @@ L000PIC_me_up:
 L001start:
 
 	# Round 0
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -74,7 +72,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 1
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -125,7 +122,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 2
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -176,7 +172,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 3
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -227,7 +222,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 4
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -278,7 +272,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 5
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -329,7 +322,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 6
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -380,7 +372,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 7
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -431,7 +422,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 8
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -482,7 +472,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 9
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -533,7 +522,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 10
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -584,7 +572,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 11
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -635,7 +622,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 12
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -686,7 +672,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 13
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -737,7 +722,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 14
-
 	movl	36(%esp),%eax
 	movl	%esi,%edx
 	shrl	$16,%edx
@@ -788,7 +772,6 @@ L001start:
 	movl	32(%esp),%ebp
 
 	# Round 15
-
 	movl	36(%esp),%eax
 	movl	%edi,%edx
 	shrl	$16,%edx
@@ -846,7 +829,6 @@ L001start:
 	jnz	L001start
 
 	# FP
-
 	movl	28(%esp),%edx
 	rorl	$1,%edi
 	movl	%esi,%eax
