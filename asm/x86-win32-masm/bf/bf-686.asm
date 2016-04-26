@@ -17,21 +17,18 @@ $L_BF_encrypt_begin::
 	push	ebx
 	push	esi
 	push	edi
-	;
-
+	; 
 	; Load the 2 words
 	mov	eax,DWORD PTR 20[esp]
 	mov	ecx,DWORD PTR [eax]
 	mov	edx,DWORD PTR 4[eax]
-	;
-
+	; 
 	; P pointer, s and enc flag
 	mov	edi,DWORD PTR 24[esp]
 	xor	eax,eax
 	xor	ebx,ebx
 	xor	ecx,DWORD PTR [edi]
-	;
-
+	; 
 	; Round 0
 	ror	ecx,16
 	mov	esi,DWORD PTR 4[edi]
@@ -50,8 +47,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 1
 	ror	edx,16
 	mov	esi,DWORD PTR 8[edi]
@@ -70,8 +66,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 2
 	ror	ecx,16
 	mov	esi,DWORD PTR 12[edi]
@@ -90,8 +85,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 3
 	ror	edx,16
 	mov	esi,DWORD PTR 16[edi]
@@ -110,8 +104,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 4
 	ror	ecx,16
 	mov	esi,DWORD PTR 20[edi]
@@ -130,8 +123,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 5
 	ror	edx,16
 	mov	esi,DWORD PTR 24[edi]
@@ -150,8 +142,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 6
 	ror	ecx,16
 	mov	esi,DWORD PTR 28[edi]
@@ -170,8 +161,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 7
 	ror	edx,16
 	mov	esi,DWORD PTR 32[edi]
@@ -190,8 +180,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 8
 	ror	ecx,16
 	mov	esi,DWORD PTR 36[edi]
@@ -210,8 +199,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 9
 	ror	edx,16
 	mov	esi,DWORD PTR 40[edi]
@@ -230,8 +218,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 10
 	ror	ecx,16
 	mov	esi,DWORD PTR 44[edi]
@@ -250,8 +237,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 11
 	ror	edx,16
 	mov	esi,DWORD PTR 48[edi]
@@ -270,8 +256,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 12
 	ror	ecx,16
 	mov	esi,DWORD PTR 52[edi]
@@ -290,8 +275,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 13
 	ror	edx,16
 	mov	esi,DWORD PTR 56[edi]
@@ -310,8 +294,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 14
 	ror	ecx,16
 	mov	esi,DWORD PTR 60[edi]
@@ -330,8 +313,7 @@ $L_BF_encrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 15
 	ror	edx,16
 	mov	esi,DWORD PTR 64[edi]
@@ -367,21 +349,18 @@ $L_BF_decrypt_begin::
 	push	ebx
 	push	esi
 	push	edi
-	;
-
+	; 
 	; Load the 2 words
 	mov	eax,DWORD PTR 20[esp]
 	mov	ecx,DWORD PTR [eax]
 	mov	edx,DWORD PTR 4[eax]
-	;
-
+	; 
 	; P pointer, s and enc flag
 	mov	edi,DWORD PTR 24[esp]
 	xor	eax,eax
 	xor	ebx,ebx
 	xor	ecx,DWORD PTR 68[edi]
-	;
-
+	; 
 	; Round 16
 	ror	ecx,16
 	mov	esi,DWORD PTR 64[edi]
@@ -400,8 +379,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 15
 	ror	edx,16
 	mov	esi,DWORD PTR 60[edi]
@@ -420,8 +398,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 14
 	ror	ecx,16
 	mov	esi,DWORD PTR 56[edi]
@@ -440,8 +417,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 13
 	ror	edx,16
 	mov	esi,DWORD PTR 52[edi]
@@ -460,8 +436,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 12
 	ror	ecx,16
 	mov	esi,DWORD PTR 48[edi]
@@ -480,8 +455,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 11
 	ror	edx,16
 	mov	esi,DWORD PTR 44[edi]
@@ -500,8 +474,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 10
 	ror	ecx,16
 	mov	esi,DWORD PTR 40[edi]
@@ -520,8 +493,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 9
 	ror	edx,16
 	mov	esi,DWORD PTR 36[edi]
@@ -540,8 +512,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 8
 	ror	ecx,16
 	mov	esi,DWORD PTR 32[edi]
@@ -560,8 +531,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 7
 	ror	edx,16
 	mov	esi,DWORD PTR 28[edi]
@@ -580,8 +550,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 6
 	ror	ecx,16
 	mov	esi,DWORD PTR 24[edi]
@@ -600,8 +569,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 5
 	ror	edx,16
 	mov	esi,DWORD PTR 20[edi]
@@ -620,8 +588,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 4
 	ror	ecx,16
 	mov	esi,DWORD PTR 16[edi]
@@ -640,8 +607,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 3
 	ror	edx,16
 	mov	esi,DWORD PTR 12[edi]
@@ -660,8 +626,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	ecx,esi
-	;
-
+	; 
 	; Round 2
 	ror	ecx,16
 	mov	esi,DWORD PTR 8[edi]
@@ -680,8 +645,7 @@ $L_BF_decrypt_begin::
 	add	esi,ebp
 	xor	eax,eax
 	xor	edx,esi
-	;
-
+	; 
 	; Round 1
 	ror	edx,16
 	mov	esi,DWORD PTR 4[edi]
@@ -713,8 +677,7 @@ _BF_decrypt ENDP
 ALIGN	16
 _BF_cbc_encrypt	PROC PUBLIC
 $L_BF_cbc_encrypt_begin::
-	;
-
+	; 
 	push	ebp
 	push	ebx
 	push	esi

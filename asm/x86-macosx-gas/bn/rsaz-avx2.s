@@ -1,5 +1,4 @@
-.text
-
+.text	
 
 .globl	_rsaz_avx2_eligible
 
@@ -23,3 +22,4 @@ _rsaz_1024_scatter5_avx2:
 _rsaz_1024_gather5_avx2:
 .byte	0x0f,0x0b
 	.byte	0xf3,0xc3
+

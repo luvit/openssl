@@ -1,6 +1,5 @@
 .text
 
-
 .globl	_whirlpool_block
 
 .p2align	4
