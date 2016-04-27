@@ -937,20 +937,24 @@ else()
       AND (NOT ${CMAKE_SYSTEM} MATCHES "Darwin")
       AND (${ARCH} MATCHES "ia32"))
     message("  unix 32bit")
+    add_definitions(
+      -DOPENSSL_BN_ASM_PART_WORDS
+    )
     set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/aes/aes-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/aes/aesni-x86.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/aes/vpaes-x86.s
-      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bf/bf-686.s
+      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bf/bf-586.s
+      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/bn-586.s
+      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/co-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/x86-mont.s
-      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/x86.s
-      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/rsaz-avx2.s
+      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/bn/x86-gf2m.s
+      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/camellia/cmll-x86.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/cast/cast-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/des/crypt586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/des/des-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/md5/md5-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/rc4/rc4-586.s
-      ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/rc5/rc5-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/ripemd/rmd-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha1-586.s
       ${OPENSSL_ROOT_DIR}/asm/x86-elf-gas/sha/sha256-586.s
