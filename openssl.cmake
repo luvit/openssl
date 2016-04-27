@@ -1138,17 +1138,17 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aes-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aesni-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-686.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
-	  ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/bn-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/bn-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/co-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-gf2m.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/camellia/cmll-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/cast/cast-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/crypt586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/des-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/md5/md5-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc4/rc4-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc5/rc5-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/ripemd/rmd-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha1-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha256-586.asm
