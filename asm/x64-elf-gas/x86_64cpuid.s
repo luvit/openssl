@@ -44,43 +44,43 @@ OPENSSL_ia32_cpuid:
 	movl	%eax,%r11d
 
 	xorl	%eax,%eax
-	cmpl	$0x756e6547,%ebx
+	cmpl	$1970169159,%ebx
 	setne	%al
 	movl	%eax,%r9d
-	cmpl	$0x49656e69,%edx
+	cmpl	$1231384169,%edx
 	setne	%al
 	orl	%eax,%r9d
-	cmpl	$0x6c65746e,%ecx
+	cmpl	$1818588270,%ecx
 	setne	%al
 	orl	%eax,%r9d
 	jz	.Lintel
 
-	cmpl	$0x68747541,%ebx
+	cmpl	$1752462657,%ebx
 	setne	%al
 	movl	%eax,%r10d
-	cmpl	$0x69746E65,%edx
+	cmpl	$1769238117,%edx
 	setne	%al
 	orl	%eax,%r10d
-	cmpl	$0x444D4163,%ecx
+	cmpl	$1145913699,%ecx
 	setne	%al
 	orl	%eax,%r10d
 	jnz	.Lintel
 
 
-	movl	$0x80000000,%eax
+	movl	$2147483648,%eax
 	cpuid
-	cmpl	$0x80000001,%eax
+	cmpl	$2147483649,%eax
 	jb	.Lintel
 	movl	%eax,%r10d
-	movl	$0x80000001,%eax
+	movl	$2147483649,%eax
 	cpuid
 	orl	%ecx,%r9d
-	andl	$0x00000801,%r9d
+	andl	$2049,%r9d
 
-	cmpl	$0x80000008,%r10d
+	cmpl	$2147483656,%r10d
 	jb	.Lintel
 
-	movl	$0x80000008,%eax
+	movl	$2147483656,%eax
 	cpuid
 	movzbq	%cl,%r10
 	incq	%r10
@@ -92,7 +92,7 @@ OPENSSL_ia32_cpuid:
 	shrl	$16,%ebx
 	cmpb	%r10b,%bl
 	ja	.Lgeneric
-	andl	$0xefffffff,%edx
+	andl	$4026531839,%edx
 	jmp	.Lgeneric
 
 .Lintel:
@@ -105,7 +105,7 @@ OPENSSL_ia32_cpuid:
 	cpuid
 	movl	%eax,%r10d
 	shrl	$14,%r10d
-	andl	$0xfff,%r10d
+	andl	$4095,%r10d
 
 	cmpl	$7,%r11d
 	jb	.Lnocacheinfo
@@ -118,29 +118,29 @@ OPENSSL_ia32_cpuid:
 .Lnocacheinfo:
 	movl	$1,%eax
 	cpuid
-	andl	$0xbfefffff,%edx
+	andl	$3220176895,%edx
 	cmpl	$0,%r9d
 	jne	.Lnotintel
-	orl	$0x40000000,%edx
+	orl	$1073741824,%edx
 	andb	$15,%ah
 	cmpb	$15,%ah
 	jne	.Lnotintel
-	orl	$0x00100000,%edx
+	orl	$1048576,%edx
 .Lnotintel:
 	btl	$28,%edx
 	jnc	.Lgeneric
-	andl	$0xefffffff,%edx
+	andl	$4026531839,%edx
 	cmpl	$0,%r10d
 	je	.Lgeneric
 
-	orl	$0x10000000,%edx
+	orl	$268435456,%edx
 	shrl	$16,%ebx
 	cmpb	$1,%bl
 	ja	.Lgeneric
-	andl	$0xefffffff,%edx
+	andl	$4026531839,%edx
 .Lgeneric:
-	andl	$0x00000800,%r9d
-	andl	$0xfffff7ff,%ecx
+	andl	$2048,%r9d
+	andl	$4294965247,%ecx
 	orl	%ecx,%r9d
 
 	movl	%edx,%r10d
@@ -152,9 +152,9 @@ OPENSSL_ia32_cpuid:
 	cmpl	$6,%eax
 	je	.Ldone
 .Lclear_avx:
-	movl	$0xefffe7ff,%eax
+	movl	$4026525695,%eax
 	andl	%eax,%r9d
-	andl	$0xffffffdf,8(%rdi)
+	andl	$4294967263,8(%rdi)
 .Ldone:
 	shlq	$32,%r9
 	movl	%r10d,%eax
