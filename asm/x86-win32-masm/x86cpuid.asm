@@ -2,7 +2,14 @@ TITLE	x86cpuid.asm
 IF @Version LT 800
 ECHO MASM version 8.00 or later is strongly recommended.
 ENDIF
-.486
+.686
+.XMM
+IF @Version LT 800
+XMMWORD STRUCT 16
+DQ	2 dup (?)
+XMMWORD	ENDS
+ENDIF
+
 .MODEL	FLAT
 OPTION	DOTNAME
 IF @Version LT 800
@@ -227,7 +234,20 @@ $L_OPENSSL_wipe_cpu_begin::
 	mov	ecx,DWORD PTR [ecx]
 	bt	DWORD PTR [ecx],1
 	jnc	$L013no_x87
-DD	4007259865,4007259865,4007259865,4007259865,2430851995
+	and	ecx,83886080
+	cmp	ecx,83886080
+	jne	$L014no_sse2
+	pxor	xmm0,xmm0
+	pxor	xmm1,xmm1
+	pxor	xmm2,xmm2
+	pxor	xmm3,xmm3
+	pxor	xmm4,xmm4
+	pxor	xmm5,xmm5
+	pxor	xmm6,xmm6
+	pxor	xmm7,xmm7
+$L014no_sse2:
+DD	4007259865,4007259865,4007259865,4007259865
+DD	2430851995
 $L013no_x87:
 	lea	eax,DWORD PTR 4[esp]
 	ret
@@ -240,11 +260,11 @@ $L_OPENSSL_atomic_add_begin::
 	push	ebx
 	nop
 	mov	eax,DWORD PTR [edx]
-$L014spin:
+$L015spin:
 	lea	ebx,DWORD PTR [ecx*1+eax]
 	nop
 DD	447811568
-	jne	$L014spin
+	jne	$L015spin
 	mov	eax,ebx
 	pop	ebx
 	ret
@@ -281,43 +301,43 @@ $L_OPENSSL_cleanse_begin::
 	mov	ecx,DWORD PTR 8[esp]
 	xor	eax,eax
 	cmp	ecx,7
-	jae	$L015lot
+	jae	$L016lot
 	cmp	ecx,0
-	je	$L016ret
-$L017little:
+	je	$L017ret
+$L018little:
 	mov	BYTE PTR [edx],al
 	sub	ecx,1
 	lea	edx,DWORD PTR 1[edx]
-	jnz	$L017little
-$L016ret:
+	jnz	$L018little
+$L017ret:
 	ret
 ALIGN	16
-$L015lot:
+$L016lot:
 	test	edx,3
-	jz	$L018aligned
+	jz	$L019aligned
 	mov	BYTE PTR [edx],al
 	lea	ecx,DWORD PTR [ecx-1]
 	lea	edx,DWORD PTR 1[edx]
-	jmp	$L015lot
-$L018aligned:
+	jmp	$L016lot
+$L019aligned:
 	mov	DWORD PTR [edx],eax
 	lea	ecx,DWORD PTR [ecx-4]
 	test	ecx,-4
 	lea	edx,DWORD PTR 4[edx]
-	jnz	$L018aligned
+	jnz	$L019aligned
 	cmp	ecx,0
-	jne	$L017little
+	jne	$L018little
 	ret
 _OPENSSL_cleanse ENDP
 ALIGN	16
 _OPENSSL_ia32_rdrand	PROC PUBLIC
 $L_OPENSSL_ia32_rdrand_begin::
 	mov	ecx,8
-$L019loop:
+$L020loop:
 DB	15,199,240
-	jc	$L020break
-	loop	$L019loop
-$L020break:
+	jc	$L021break
+	loop	$L020loop
+$L021break:
 	cmp	eax,0
 	cmove	eax,ecx
 	ret
@@ -326,11 +346,11 @@ ALIGN	16
 _OPENSSL_ia32_rdseed	PROC PUBLIC
 $L_OPENSSL_ia32_rdseed_begin::
 	mov	ecx,8
-$L021loop:
+$L022loop:
 DB	15,199,248
-	jc	$L022break
-	loop	$L021loop
-$L022break:
+	jc	$L023break
+	loop	$L022loop
+$L023break:
 	cmp	eax,0
 	cmove	eax,ecx
 	ret
