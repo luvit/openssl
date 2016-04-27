@@ -1,6 +1,5 @@
 .text
 
-
 .globl	rsaz_avx2_eligible
 .type	rsaz_avx2_eligible,@function
 rsaz_avx2_eligible:

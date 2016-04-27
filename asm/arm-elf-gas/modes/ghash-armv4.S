@@ -3,6 +3,11 @@
 .text
 .code	32
 
+#ifdef __clang__
+#define ldrplb	ldrbpl
+#define ldrneb	ldrbne
+#endif
+
 .type	rem_4bit,%object
 .align	5
 rem_4bit:
@@ -145,7 +150,6 @@ gcm_ghash_4bit:
 	strb	r11,[r0,#4]
 #endif
 
-
 #if __ARM_ARCH__>=7 && defined(__ARMEL__)
 	rev	r7,r7
 	str	r7,[r0,#0]
@@ -160,7 +164,6 @@ gcm_ghash_4bit:
 	strb	r10,[r0,#0+1]
 	strb	r11,[r0,#0]
 #endif
-
 
 	bne	.Louter
 
@@ -254,7 +257,6 @@ gcm_gmult_4bit:
 	strb	r11,[r0,#12]
 #endif
 
-
 #if __ARM_ARCH__>=7 && defined(__ARMEL__)
 	rev	r5,r5
 	str	r5,[r0,#8]
@@ -269,7 +271,6 @@ gcm_gmult_4bit:
 	strb	r10,[r0,#8+1]
 	strb	r11,[r0,#8]
 #endif
-
 
 #if __ARM_ARCH__>=7 && defined(__ARMEL__)
 	rev	r6,r6
@@ -286,7 +287,6 @@ gcm_gmult_4bit:
 	strb	r11,[r0,#4]
 #endif
 
-
 #if __ARM_ARCH__>=7 && defined(__ARMEL__)
 	rev	r7,r7
 	str	r7,[r0,#0]
@@ -301,7 +301,6 @@ gcm_gmult_4bit:
 	strb	r10,[r0,#0+1]
 	strb	r11,[r0,#0]
 #endif
-
 
 #if __ARM_ARCH__>=5
 	ldmia	sp!,{r4-r11,pc}
@@ -519,7 +518,6 @@ gcm_ghash_neon:
 	vrev64.8	q0,q0
 #endif
 	sub		r0,#16
-
 	vst1.64		d1,[r0,:64]!	@ write out Xi
 	vst1.64		d0,[r0,:64]
 

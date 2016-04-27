@@ -1,6 +1,5 @@
 .text
 
-
 .globl	_aesni_encrypt
 
 .p2align	4

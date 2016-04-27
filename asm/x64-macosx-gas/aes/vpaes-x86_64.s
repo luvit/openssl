@@ -16,7 +16,6 @@
 
 
 
-
 .p2align	4
 _vpaes_encrypt_core:
 	movq	%rdx,%r9

@@ -2,7 +2,6 @@
 
 
 
-
 .globl	_aesni_multi_cbc_encrypt
 
 .p2align	5

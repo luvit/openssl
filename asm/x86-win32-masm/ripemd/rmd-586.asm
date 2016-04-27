@@ -2,7 +2,7 @@ TITLE	../openssl/crypto/ripemd/asm/rmd-586.asm
 IF @Version LT 800
 ECHO MASM version 8.00 or later is strongly recommended.
 ENDIF
-.486
+.686
 .MODEL	FLAT
 OPTION	DOTNAME
 IF @Version LT 800
@@ -25,7 +25,6 @@ $L_ripemd160_block_asm_data_order_begin::
 	sub	esp,108
 $L000start:
 	;
-
 	mov	ebx,DWORD PTR [eax]
 	mov	ebp,DWORD PTR 4[eax]
 	mov	DWORD PTR [esp],ebx

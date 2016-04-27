@@ -226,6 +226,18 @@ L015PIC_me_up:
 	movl	(%ecx),%ecx
 	btl	$1,(%ecx)
 	jnc	L016no_x87
+	andl	$83886080,%ecx
+	cmpl	$83886080,%ecx
+	jne	L017no_sse2
+	pxor	%xmm0,%xmm0
+	pxor	%xmm1,%xmm1
+	pxor	%xmm2,%xmm2
+	pxor	%xmm3,%xmm3
+	pxor	%xmm4,%xmm4
+	pxor	%xmm5,%xmm5
+	pxor	%xmm6,%xmm6
+	pxor	%xmm7,%xmm7
+L017no_sse2:
 .long	4007259865,4007259865,4007259865,4007259865,2430851995
 L016no_x87:
 	leal	4(%esp),%eax
@@ -239,11 +251,11 @@ L_OPENSSL_atomic_add_begin:
 	pushl	%ebx
 	nop
 	movl	(%edx),%eax
-L017spin:
+L018spin:
 	leal	(%eax,%ecx,1),%ebx
 	nop
 .long	447811568
-	jne	L017spin
+	jne	L018spin
 	movl	%ebx,%eax
 	popl	%ebx
 	ret
@@ -280,43 +292,43 @@ L_OPENSSL_cleanse_begin:
 	movl	8(%esp),%ecx
 	xorl	%eax,%eax
 	cmpl	$7,%ecx
-	jae	L018lot
+	jae	L019lot
 	cmpl	$0,%ecx
-	je	L019ret
-L020little:
+	je	L020ret
+L021little:
 	movb	%al,(%edx)
 	subl	$1,%ecx
 	leal	1(%edx),%edx
-	jnz	L020little
-L019ret:
+	jnz	L021little
+L020ret:
 	ret
 .align	4,0x90
-L018lot:
+L019lot:
 	testl	$3,%edx
-	jz	L021aligned
+	jz	L022aligned
 	movb	%al,(%edx)
 	leal	-1(%ecx),%ecx
 	leal	1(%edx),%edx
-	jmp	L018lot
-L021aligned:
+	jmp	L019lot
+L022aligned:
 	movl	%eax,(%edx)
 	leal	-4(%ecx),%ecx
 	testl	$-4,%ecx
 	leal	4(%edx),%edx
-	jnz	L021aligned
+	jnz	L022aligned
 	cmpl	$0,%ecx
-	jne	L020little
+	jne	L021little
 	ret
 .globl	_OPENSSL_ia32_rdrand
 .align	4
 _OPENSSL_ia32_rdrand:
 L_OPENSSL_ia32_rdrand_begin:
 	movl	$8,%ecx
-L022loop:
+L023loop:
 .byte	15,199,240
-	jc	L023break
-	loop	L022loop
-L023break:
+	jc	L024break
+	loop	L023loop
+L024break:
 	cmpl	$0,%eax
 	cmovel	%ecx,%eax
 	ret
@@ -325,11 +337,11 @@ L023break:
 _OPENSSL_ia32_rdseed:
 L_OPENSSL_ia32_rdseed_begin:
 	movl	$8,%ecx
-L024loop:
+L025loop:
 .byte	15,199,248
-	jc	L025break
-	loop	L024loop
-L025break:
+	jc	L026break
+	loop	L025loop
+L026break:
 	cmpl	$0,%eax
 	cmovel	%ecx,%eax
 	ret

@@ -8,7 +8,6 @@
 
 .text
 
-
 .globl	OPENSSL_atomic_add
 .type	OPENSSL_atomic_add,@function
 .align	16

@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	Camellia_EncryptBlock
 .type	Camellia_EncryptBlock,@function
 .align	16

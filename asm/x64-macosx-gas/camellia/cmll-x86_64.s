@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	_Camellia_EncryptBlock
 
 .p2align	4

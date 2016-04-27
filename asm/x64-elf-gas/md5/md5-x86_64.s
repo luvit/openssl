@@ -1,5 +1,4 @@
 .text
-
 .align	16
 
 .globl	md5_block_asm_data_order

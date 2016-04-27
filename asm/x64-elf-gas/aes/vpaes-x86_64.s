@@ -15,7 +15,6 @@
 
 
 
-
 .type	_vpaes_encrypt_core,@function
 .align	16
 _vpaes_encrypt_core:

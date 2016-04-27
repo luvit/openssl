@@ -9,7 +9,6 @@
 
 .text
 
-
 .globl	_OPENSSL_atomic_add
 
 .p2align	4

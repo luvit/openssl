@@ -3,7 +3,6 @@
 
 
 
-
 .type	_bsaes_encrypt8,@function
 .align	64
 _bsaes_encrypt8:

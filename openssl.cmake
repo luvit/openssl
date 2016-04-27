@@ -1090,8 +1090,6 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/bn/rsaz-avx2.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/bn/rsaz-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/md5/md5-x86_64.s
-      ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/rc4/rc4-x86_64.s
-      ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/rc4/rc4-md5-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/sha/sha1-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/sha/sha1-mb-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/sha/sha256-mb-x86_64.s
@@ -1101,13 +1099,17 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/modes/ghash-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/modes/aesni-gcm-x86_64.s
       ${OPENSSL_ROOT_DIR}/asm/x64-macosx-gas/x86_64cpuid.s
-      # Non-generated asm
+
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/asm/x86_64-gcc.c
-      # No asm available
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_enc.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/rsaz_exp.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/ec/ecp_nistz256.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/ui/ui_compat.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_skey.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/rc4/rc4_enc.c
     )
   endif()
 
@@ -1117,34 +1119,34 @@ else()
     if(${ARCH} MATCHES "ia32")
       add_definitions(
         -DOPENSSL_BN_ASM_PART_WORDS
-        -DOPENSSL_IA32_SSE2
-        -DOPENSSL_BN_ASM_MONT
-        -DOPENSSL_BN_ASM_GF2m
-        -DSHA1_ASM
-        -DSHA256_ASM
-        -DSHA512_ASM
-        -DMD5_ASM
-        -DRMD160_ASM
-        -DAES_ASM
         -DVPAES_ASM
+        -DBN_ASM
+        -DBF_ASM
+        -DBNCO_ASM
+        -DDES_ASM
+        -DLIB_BN_ASM
+        -DMD5_ASM
+        -DOPENSSL_BN_ASM
+        -DRIP_ASM
+        -DRMD160_ASM
         -DWHIRLPOOL_ASM
-        -DGHASH_ASM
+        -DWP_ASM
       )
       set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aes-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/aesni-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/aes/vpaes-x86.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-686.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
-	  ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/bn-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bf/bf-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/bn-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/co-586.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-mont.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/bn/x86-gf2m.asm
+      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/camellia/cmll-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/cast/cast-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/crypt586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/des/des-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/md5/md5-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc4/rc4-586.asm
-      ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/rc5/rc5-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/ripemd/rmd-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha1-586.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/sha/sha256-586.asm
@@ -1152,6 +1154,7 @@ else()
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/whrlpool/wp-mmx.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/modes/ghash-x86.asm
       ${OPENSSL_ROOT_DIR}/asm/x86-win32-masm/x86cpuid.asm
+
       ${OPENSSL_ROOT_DIR}/openssl/crypto/whrlpool/wp_block.c)
 	  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
       set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
@@ -1162,50 +1165,58 @@ else()
   # windows 64bit
   if (${ARCH} MATCHES "x64")
     add_definitions(
-      -DOPENSSL_BN_ASM_MONT5
-      -DOPENSSL_BN_ASM_GF2m
-      -DOPENSSL_IA32_SSE2
-      -DBSAES_ASM
-      -DOPENSSL_BN_ASM_MONT
-      -DSHA1_ASM
-      -DSHA256_ASM
-      -DSHA512_ASM
-      -DMD5_ASM
-      -DAES_ASM -DVPAES_ASM
-      -DWHIRLPOOL_ASM
-      -DGHASH_ASM
+        -DOPENSSL_BN_ASM_MONT5
+        -DOPENSSL_BN_ASM_GF2m
+        -DOPENSSL_IA32_SSE2
+        -DBSAES_ASM
+        -DAES_ASM
+        -DCPUID_ASM
+        -DOPENSSL_BN_ASM_MONT
+        -DOPENSSL_CPUID_OBJ
+        -DSHA1_ASM
+        -DSHA256_ASM
+        -DSHA512_ASM
+        -DGHASH_ASM
+        -DOPENSSL_BN_ASM_MONT5
+        -DOPENSSL_BN_ASM_GF2m
+        -DOPENSSL_IA32_SSE2
+        -DBSAES_ASM
     )
     set(sources ${sources}
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aes-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-mb-x86_64.asm
+      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-sha256-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/vpaes-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/bsaes-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-sha1-x86_64.asm
-      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/aes/aesni-sha256-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/rsaz-avx2.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/rsaz-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-mont.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-mont5.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/bn/x86_64-gf2m.asm
+      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/ec/ecp_nistz256-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/md5/md5-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/rc4/rc4-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/rc4/rc4-md5-x86_64.asm
-      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha1-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha1-mb-x86_64.asm
+      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha1-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha256-mb-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha256-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/sha/sha512-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/whrlpool/wp-x86_64.asm
-      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/modes/ghash-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/modes/aesni-gcm-x86_64.asm
+      ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/modes/ghash-x86_64.asm
       ${OPENSSL_ROOT_DIR}/asm/x64-win32-masm/x86_64cpuid.asm
-      # No asm available
+
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/bn_asm.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/bf/bf_enc.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/bn/rsaz_exp.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/cast/c_enc.c
       ${OPENSSL_ROOT_DIR}/openssl/crypto/des/des_enc.c
-      ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c)
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/des/fcrypt_b.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/ec/ecp_nistz256.c
+      ${OPENSSL_ROOT_DIR}/openssl/crypto/ui/ui_compat.c)
   endif()
   endif()
 endif()

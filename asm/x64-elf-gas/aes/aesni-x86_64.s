@@ -1,6 +1,5 @@
 .text
 
-
 .globl	aesni_encrypt
 .type	aesni_encrypt,@function
 .align	16

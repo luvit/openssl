@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	RC4
 .type	RC4,@function
 .align	16

@@ -4,7 +4,6 @@
 
 
 
-
 .p2align	6
 _bsaes_encrypt8:
 	leaq	L$BS0(%rip),%r11

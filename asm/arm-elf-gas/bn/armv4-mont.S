@@ -81,7 +81,6 @@ bn_mul_mont:
 	str	r12,[r0]		@ tp[num-1]=
 	str	r14,[r0,#4]		@ tp[num]=
 
-
 .Louter:
 	sub	r7,r0,sp		@ "original" r0-1 value
 	sub	r1,r1,r7		@ "rewind" ap to &ap[1]
@@ -129,7 +128,6 @@ bn_mul_mont:
 
 	cmp	r4,r7
 	bne	.Louter
-
 
 	ldr	r2,[r0,#12*4]		@ pull rp
 	add	r0,r0,#4		@ r0 to point at &tp[num]

@@ -2,7 +2,7 @@ TITLE	cast-586.asm
 IF @Version LT 800
 ECHO MASM version 8.00 or later is strongly recommended.
 ENDIF
-.486
+.686
 .MODEL	FLAT
 OPTION	DOTNAME
 IF @Version LT 800
@@ -18,7 +18,6 @@ ALIGN	16
 _CAST_encrypt	PROC PUBLIC
 $L_CAST_encrypt_begin::
 	;
-
 	push	ebp
 	push	ebx
 	mov	ebx,DWORD PTR 12[esp]
@@ -391,7 +390,6 @@ ALIGN	16
 _CAST_decrypt	PROC PUBLIC
 $L_CAST_decrypt_begin::
 	;
-
 	push	ebp
 	push	ebx
 	mov	ebx,DWORD PTR 12[esp]
@@ -757,7 +755,6 @@ ALIGN	16
 _CAST_cbc_encrypt	PROC PUBLIC
 $L_CAST_cbc_encrypt_begin::
 	;
-
 	push	ebp
 	push	ebx
 	push	esi

@@ -1,7 +1,6 @@
 .text
 
 
-
 .globl	_sha512_block_data_order
 
 .p2align	4

@@ -1,4 +1,4 @@
-TITLE	openssl/crypto/bn/asm/bn-586.asm
+TITLE	../openssl/crypto/bn/asm/bn-586.asm
 IF @Version LT 800
 ECHO MASM version 8.00 or later is strongly recommended.
 ENDIF
@@ -118,7 +118,7 @@ $L000maw_non_sse2:
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	xor	esi,esi
 	mov	edi,DWORD PTR 20[esp]
 	mov	ecx,DWORD PTR 28[esp]
@@ -201,7 +201,7 @@ $L006maw_loop:
 	adc	edx,0
 	mov	DWORD PTR 28[edi],eax
 	mov	esi,edx
-	; 
+	;
 	sub	ecx,8
 	lea	ebx,DWORD PTR 32[ebx]
 	lea	edi,DWORD PTR 32[edi]
@@ -327,7 +327,7 @@ $L009mw_non_sse2:
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	xor	esi,esi
 	mov	edi,DWORD PTR 20[esp]
 	mov	ebx,DWORD PTR 24[esp]
@@ -392,7 +392,7 @@ $L012mw_loop:
 	adc	edx,0
 	mov	DWORD PTR 28[edi],eax
 	mov	esi,edx
-	; 
+	;
 	add	ebx,32
 	add	edi,32
 	sub	ebp,8
@@ -499,7 +499,7 @@ $L015sqr_non_sse2:
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	esi,DWORD PTR 20[esp]
 	mov	edi,DWORD PTR 24[esp]
 	mov	ebx,DWORD PTR 28[esp]
@@ -546,7 +546,7 @@ $L018sw_loop:
 	mul	eax
 	mov	DWORD PTR 56[esi],eax
 	mov	DWORD PTR 60[esi],edx
-	; 
+	;
 	add	edi,32
 	add	esi,64
 	sub	ebx,8
@@ -625,7 +625,7 @@ $L_bn_add_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
@@ -706,7 +706,7 @@ $L021aw_loop:
 	add	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
@@ -805,7 +805,7 @@ $L_bn_sub_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
@@ -886,7 +886,7 @@ $L024aw_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
@@ -985,7 +985,7 @@ $L_bn_sub_part_words_begin::
 	push	ebx
 	push	esi
 	push	edi
-	; 
+	;
 	mov	ebx,DWORD PTR 20[esp]
 	mov	esi,DWORD PTR 24[esp]
 	mov	edi,DWORD PTR 28[esp]
@@ -1066,7 +1066,7 @@ $L027aw_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	esi,32
 	add	edi,32
 	add	ebx,32
@@ -1258,7 +1258,7 @@ $L032pw_neg_loop:
 	sub	ecx,edx
 	adc	eax,0
 	mov	DWORD PTR 28[ebx],ecx
-	; 
+	;
 	add	edi,32
 	add	ebx,32
 	sub	ebp,8
@@ -1389,7 +1389,7 @@ $L034pw_pos_loop:
 	sub	ecx,eax
 	mov	DWORD PTR 28[ebx],ecx
 	jnc	$L042pw_nc7
-	; 
+	;
 	add	esi,32
 	add	ebx,32
 	sub	ebp,8
@@ -1472,7 +1472,7 @@ $L041pw_nc6:
 	mov	ecx,DWORD PTR 28[esi]
 	mov	DWORD PTR 28[ebx],ecx
 $L042pw_nc7:
-	; 
+	;
 	add	esi,32
 	add	ebx,32
 	sub	ebp,8

@@ -1,5 +1,4 @@
 .text
-
 .p2align	4
 
 .globl	_md5_block_asm_data_order
